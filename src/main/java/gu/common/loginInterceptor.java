@@ -13,18 +13,18 @@ public class loginInterceptor implements HandlerInterceptor {
 		//Controller 실행 요청전 
         HttpSession session = req.getSession();
         
-		session.setAttribute("userid", "admin");
+		/*session.setAttribute("userid", "admin");
 		session.setAttribute("userrole", "A");		
         session.setAttribute("userno",   "1");        
-        session.setAttribute("usernm", "관리자");
-        /*try {
+        session.setAttribute("usernm", "관리자");*/
+        try {
             if(session==null || session.getAttribute("userno") == null){
                 res.sendRedirect("memberLogin"); 
                 return false;
             }
 		} catch (Exception e) {
 			e.printStackTrace();
-		}*/
+		}
         
         return true;
 	}
