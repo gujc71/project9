@@ -1,4 +1,4 @@
-DROP TABLE COM_CODE;
+-- DROP TABLE COM_CODE;
 
 CREATE TABLE COM_CODE(
   CLASSNO 	INT(11),				-- 대분류
@@ -7,7 +7,7 @@ CREATE TABLE COM_CODE(
   PRIMARY KEY (CLASSNO, CODECD)
 ) ;
 
-DROP TABLE COM_DEPT;
+-- DROP TABLE COM_DEPT;
 
 CREATE TABLE COM_DEPT(
   DEPTNO 	INT(11),   				-- 부서 번호
@@ -18,7 +18,7 @@ CREATE TABLE COM_DEPT(
 ) ;
 
 
-DROP TABLE COM_USER;
+-- DROP TABLE COM_USER;
 
 CREATE TABLE COM_USER(
   USERNO 	INT(11) NOT NULL AUTO_INCREMENT,	-- 사용자 번호
@@ -34,7 +34,7 @@ CREATE TABLE COM_USER(
 
 /*------------------------------------------*/
 
-DROP TABLE TBL_BOARD;
+-- DROP TABLE TBL_BOARD;
 
 CREATE TABLE TBL_BOARD (
   BGNO INT(11),                             -- 게시판 그룹번호
@@ -49,7 +49,7 @@ CREATE TABLE TBL_BOARD (
   PRIMARY KEY (BRDNO)
 ) ;
 
-DROP TABLE TBL_BOARDFILE;
+-- DROP TABLE TBL_BOARDFILE;
 
 CREATE TABLE TBL_BOARDFILE (
     FILENO INT(11)  NOT NULL AUTO_INCREMENT, -- 파일 번호
@@ -60,7 +60,7 @@ CREATE TABLE TBL_BOARDFILE (
     PRIMARY KEY (FILENO)
 );
 
-DROP TABLE TBL_BOARDREPLY;
+-- DROP TABLE TBL_BOARDREPLY;
 
 CREATE TABLE TBL_BOARDREPLY (
     BRDNO INT(11) NOT NULL,                 -- 게시물 번호
@@ -78,7 +78,7 @@ CREATE TABLE TBL_BOARDREPLY (
     PRIMARY KEY (RENO)
 );
 
-DROP TABLE TBL_BOARDREAD;
+-- DROP TABLE TBL_BOARDREAD;
 
 CREATE TABLE TBL_BOARDREAD (
 	BRDNO INT(11) NOT NULL,                  -- 게시물 번호
@@ -88,7 +88,7 @@ CREATE TABLE TBL_BOARDREAD (
 );
 
 
-DROP TABLE TBL_BOARDGROUP;
+-- DROP TABLE TBL_BOARDGROUP;
 
 CREATE TABLE TBL_BOARDGROUP (
   BGNO INT(11) NOT NULL AUTO_INCREMENT,     -- 게시판 그룹번호
@@ -102,4 +102,36 @@ CREATE TABLE TBL_BOARDGROUP (
   PRIMARY KEY (BGNO)
 );
 
+-- DROP FUNCTION uf_datetime2string;
 
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `uf_datetime2string`(dt_ Datetime) RETURNS varchar(10) CHARSET utf8
+BEGIN
+	DECLARE ti INTEGER ;
+	DECLARE ret_ VARCHAR(10);
+
+	SET ti :=  TIMESTAMPDIFF(MINUTE, dt_, NOW());
+
+      IF ti < 1 THEN SET ret_:='방금';
+      ELSEIF ti < 60 THEN SET ret_:= CONCAT(TRUNCATE(ti ,0), '분전');
+      ELSEIF ti < 60*24 THEN 
+            IF ( DATEDIFF(NOW(), dt_)=1) THEN 
+                SET ret_:= '어제';
+            ELSE
+                SET ret_:= CONCAT(TRUNCATE(ti/60 ,0), '시간전');
+            END IF;
+      ELSEIF ti < 60*24*7 THEN SET ret_:= CONCAT(TRUNCATE(ti/60/24 ,0), '일전');
+      ELSEIF ti < 60*24*7*4 THEN SET ret_:= CONCAT(TRUNCATE(ti/60/24/7 ,0), '주전');
+      ELSEIF (TIMESTAMPDIFF (MONTH, dt_, NOW())=1) THEN SET ret_:= '지난달';
+      ELSEIF (TIMESTAMPDIFF (MONTH, dt_, NOW())<13) THEN 
+            IF ( TIMESTAMPDIFF (YEAR, dt_, NOW())=1) THEN 
+                SET ret_:= '작년';
+            ELSE
+                SET ret_:= CONCAT(TRUNCATE(TIMESTAMPDIFF (MONTH, dt_, NOW()) ,0), '달전');
+            END IF;
+      ELSE SET ret_:= CONCAT(TIMESTAMPDIFF (YEAR, dt_, NOW()), '년전');
+      END IF;
+      
+RETURN ret_;
+END
