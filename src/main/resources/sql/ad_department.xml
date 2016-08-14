@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="ad_department">
+    <select id="selectDepartment" resultType="gu.common.TreeVO" >
+        SELECT DEPTNO 'KEY', DEPTNM TITLE, PARENTNO PARENT
+          FROM COM_DEPT
+		 WHERE DELETEFLAG='N' 
+         ORDER BY DEPTNO  
+    </select> 
+    
+    <insert id="insertDepartment" parameterType="gu.admin.organ.DepartmentVO" >
+        <selectKey resultType="String" keyProperty="deptno" order="BEFORE">
+            SELECT IFNULL(MAX(DEPTNO),0)+1 FROM COM_DEPT
+        </selectKey>    
+    	INSERT INTO COM_DEPT(DEPTNO, DEPTNM, PARENTNO, DELETEFLAG)
+		VALUES (#{deptno}, #{deptnm}, #{parentno}, 'N')
+	</insert>
+	
+    <update id="updateDepartment" parameterType="gu.admin.organ.DepartmentVO">
+        UPDATE COM_DEPT
+           SET DEPTNM=#{deptnm}
+         WHERE DEPTNO=#{deptno}
+    </update> 
+		
+    <select id="selectDepartmentOne" parameterType="String" resultType="gu.admin.organ.DepartmentVO">
+        SELECT DEPTNO, DEPTNM
+          FROM COM_DEPT
+         WHERE DELETEFLAG='N' AND DEPTNO=#{deptno} 
+    </select> 
+
+    <delete id="deleteDepartment" parameterType="String">
+        UPDATE COM_DEPT
+           SET DELETEFLAG='Y'
+         WHERE DEPTNO=#{deptno}
+    </delete> 
+
+</mapper>
+

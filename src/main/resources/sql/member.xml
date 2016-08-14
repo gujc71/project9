@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+    <select id="selectSearchMemberCount" parameterType="gu.common.SearchVO" resultType="Integer" >
+        SELECT COUNT(*)
+          FROM COM_USER CU
+         WHERE CU.DELETEFLAG='N'
+           AND CU.USERNM LIKE CONCAT('%', #{searchKeyword},'%')
+    </select> 
+    
+    <select id="selectSearchMemberList" parameterType="gu.common.SearchVO" resultType="gu.member.UserVO" >
+        SELECT USERNO, USERID, USERNM, PHOTO, DEPTNM DEPTNO
+          FROM COM_USER CU
+		 INNER JOIN COM_DEPT CD ON CD.DEPTNO=CU.DEPTNO
+         WHERE CU.DELETEFLAG='N' AND CD.DELETEFLAG='N'
+           AND CU.USERNM LIKE CONCAT('%', #{searchKeyword},'%')
+         LIMIT ${rowStart-1}, 10
+    </select> 
+
+    <select id="selectMember4Login" parameterType="gu.member.LoginVO" resultType="gu.member.UserVO" >
+        SELECT USERNO, USERID, USERNM, USERROLE
+          FROM COM_USER CU
+         WHERE CU.DELETEFLAG='N' 
+           AND CU.USERID = #{userid} AND USERPW=SHA2(#{userpw}, 256)
+    </select> 
+</mapper>
+

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+    <select id="selectBoardGroupOne4Used" parameterType="String" resultType="gu.admin.board.BoardGroupVO">
+        SELECT BGNO, BGNAME, BGUSED, BGREPLY, BGREADONLY
+          FROM TBL_BOARDGROUP
+         WHERE BGDELETEFLAG='N' AND BGNO=#{bgno} AND BGUSED='Y'
+    </select> 
+
+
+    <sql id="includeBoard">
+        WHERE BRDDELETEFLAG='N' AND TBG.BGDELETEFLAG='N'
+        <if test="bgno!=null and bgno!=''">
+        	AND TB.BGNO=#{bgno}
+        </if>  
+        <if test="searchExt1!=null and searchExt1!=''">
+        	AND TB.USERNO=#{searchExt1}
+        </if>  
+        <if test="searchKeyword!=null and searchKeyword!='' and searchType!=''">
+              <foreach item="item" index="index" collection="searchTypeArr" separator=" OR " open="AND (" close=")">
+                     ${item} LIKE CONCAT('%', #{searchKeyword},'%' )
+              </foreach>
+        </if>               
+    </sql>
+
+    <select id="selectBoardCount" resultType="Integer" parameterType="gu.board.BoardSearchVO">
+        SELECT COUNT(*)
+          FROM TBL_BOARD TB
+         INNER JOIN TBL_BOARDGROUP TBG ON TBG.BGNO=TB.BGNO
+         <include refid="includeBoard"/>
+    </select> 
+    
+    <select id="selectBoardList" resultType="gu.board.BoardVO" parameterType="gu.board.BoardSearchVO">
+        SELECT BRDNO, BRDTITLE, DATE_FORMAT(BRDDATE,'%Y-%m-%d') BRDDATE
+        	 , TB.USERNO, USERNM BRDWRITER, BGNAME, TB.BGNO
+             , (SELECT COUNT(*) FROM TBL_BOARDREAD WHERE BRDNO=TB.BRDNO) BRDHIT
+             , (SELECT COUNT(*) FROM TBL_BOARDFILE WHERE BRDNO=TB.BRDNO) FILECNT
+             , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
+          FROM TBL_BOARD TB
+         INNER JOIN COM_USER CU ON TB.USERNO=CU.USERNO
+         INNER JOIN TBL_BOARDGROUP TBG ON TBG.BGNO=TB.BGNO
+         <include refid="includeBoard"/>
+         ORDER BY BRDNO DESC 
+         LIMIT ${rowStart-1}, 10
+    </select> 
+    
+    <insert id="insertBoard" parameterType="gu.board.BoardVO" >
+        <selectKey resultType="String" keyProperty="brdno" order="BEFORE">
+            SELECT IFNULL(MAX(BRDNO),0)+1 FROM TBL_BOARD
+        </selectKey>
+    
+        INSERT INTO TBL_BOARD(BGNO, BRDNO, BRDTITLE, USERNO, BRDMEMO, BRDDATE, BRDDELETEFLAG, LASTDATE, LASTUSERNO)
+        VALUES (#{bgno}, #{brdno}, #{brdtitle}, #{userno}, #{brdmemo}, NOW(), 'N', NOW(), #{userno} )
+    </insert>
+    
+    <update id="updateBoard" parameterType="gu.board.BoardVO">
+        UPDATE TBL_BOARD
+           SET BRDTITLE=#{brdtitle}
+             , BRDMEMO=#{brdmemo} 
+             , LASTDATE=NOW()
+             , LASTUSERNO=#{userno}
+         WHERE BRDDELETEFLAG='N'
+           AND BRDNO=#{brdno}
+    </update> 
+        
+    <select id="selectBoardOne" parameterType="String" resultType="gu.board.BoardVO">
+        SELECT BGNO, BRDNO, BRDTITLE, USERNM BRDWRITER, BRDMEMO, DATE_FORMAT(BRDDATE,'%Y-%m-%d') BRDDATE, TB.USERNO
+             , (SELECT COUNT(*) FROM TBL_BOARDREAD WHERE BRDNO=TB.BRDNO) BRDHIT
+          FROM TBL_BOARD TB
+         INNER JOIN COM_USER CU ON TB.USERNO=CU.USERNO
+         WHERE BRDDELETEFLAG='N'
+           AND BRDNO=#{brdno}
+    </select> 
+    
+    <select id="selectBoardAuthChk" parameterType="gu.board.BoardVO" resultType="String">
+        SELECT BRDNO
+          FROM TBL_BOARD
+         WHERE BRDDELETEFLAG='N'
+           AND BRDNO=#{brdno} AND USERNO=#{userno}
+    </select> 
+
+    <update id="updateBoardRead" parameterType="String"> 
+		INSERT INTO TBL_BOARDREAD(BRDNO, USERNO, READDATE) 
+ 				SELECT #{brdno}, #{userno}, NOW()
+ 				  FROM DUAL
+ 				 WHERE NOT EXISTS(SELECT 1 FROM TBL_BOARDREAD WHERE BRDNO=#{brdno} AND USERNO=#{userno})
+    </update> 
+
+    <delete id="deleteBoardOne" parameterType="String">
+        UPDATE TBL_BOARD
+           SET BRDDELETEFLAG='Y'
+             , LASTDATE=NOW()
+             , LASTUSERNO=#{userno}
+         WHERE BRDNO=#{brdno}
+    </delete> 
+    
+    <!-- =============================================================================== -->
+    <select id="selectBoardFileList" resultType="gu.common.FileVO" parameterType="String">
+        SELECT FILENO, FILENAME, REALNAME, FILESIZE
+          FROM TBL_BOARDFILE
+         WHERE BRDNO=#{brdno}
+         ORDER BY FILENO DESC 
+    </select> 
+
+    <insert id="insertBoardFile" parameterType="gu.common.FileVO" >
+        INSERT INTO TBL_BOARDFILE (BRDNO, FILENAME, REALNAME, FILESIZE)
+        VALUES (#{parentPK}, #{filename}, #{realname}, #{filesize})
+    </insert>
+    <delete id="deleteBoardFile" parameterType="hashmap"> 
+        DELETE 
+          FROM TBL_BOARDFILE
+         WHERE FILENO IN (
+              <foreach item="item" index="index" collection="fileno" separator=",">
+                     ${item}
+              </foreach>  
+        )             
+    </delete> 
+
+    <!-- =============================================================================== -->
+    <select id="selectBoardReplyList" resultType="gu.board.BoardReplyVO" parameterType="String">
+        SELECT BRDNO, RENO, USERNM REWRITER, REDELETEFLAG, REMEMO, DATE_FORMAT(REDATE, '%Y-%m-%d %H:%i') REDATE
+        	 , REPARENT, REDEPTH, REORDER, TBR.USERNO
+          FROM TBL_BOARDREPLY TBR
+         INNER JOIN COM_USER CU ON TBR.USERNO=CU.USERNO
+         WHERE BRDNO=#{brdno} AND REDELETEFLAG='N'
+         ORDER BY REORDER
+    </select>
+        
+    <insert id="insertBoardReply" parameterType="gu.board.BoardReplyVO" >
+        <selectKey resultType="String" keyProperty="reno" order="BEFORE">
+            SELECT IFNULL(MAX(RENO),0)+1 FROM TBL_BOARDREPLY
+        </selectKey>
+    
+        INSERT INTO TBL_BOARDREPLY(BRDNO, RENO, USERNO, REDELETEFLAG, REMEMO, REDATE, LASTDATE, LASTUSERNO, REORDER, REPARENT, REDEPTH)
+        VALUES (#{brdno}, #{reno}, #{userno}, 'N', #{rememo}, NOW(), NOW(), #{userno}, #{reorder},
+                   <choose>
+                       <when test="reparent==null">#{reno}, 0</when>
+                       <otherwise>#{reparent}, #{redepth}</otherwise>
+                   </choose>
+               )
+    </insert>
+
+    <select id="selectBoardReplyParent" resultType="gu.board.BoardReplyVO" parameterType="String">
+        SELECT BRDNO, REDEPTH+1 REDEPTH, REORDER 
+          FROM TBL_BOARDREPLY
+         WHERE RENO=#{reparent}
+    </select>
+
+    <update id="updateBoardReplyOrder" parameterType="gu.board.BoardReplyVO"> 
+        UPDATE TBL_BOARDREPLY
+           SET REORDER = REORDER + 1 
+         WHERE BRDNO=#{brdno} AND REORDER>#{reorder}       
+    </update> 
+
+    <select id="selectBoardReplyMaxOrder" resultType="Integer" parameterType="String">
+        SELECT IFNULL(MAX(REORDER),0)+1
+          FROM TBL_BOARDREPLY
+         WHERE BRDNO=#{brdno}
+    </select>
+
+    <select id="selectBoardReplyChild" resultType="Integer" parameterType="String">
+        SELECT COUNT(*)
+          FROM TBL_BOARDREPLY
+         WHERE REPARENT=#{reparent} AND RENO!=#{reparent} AND REDELETEFLAG='N'
+    </select>
+
+    <select id="selectBoardReplyAuthChk" parameterType="gu.board.BoardReplyVO" resultType="String">
+        SELECT RENO
+          FROM TBL_BOARDREPLY
+         WHERE REDELETEFLAG='N'
+           AND RENO=#{reno} AND USERNO=#{userno}
+    </select> 
+    
+    <update id="deleteBoardReply" parameterType="String"> 
+        UPDATE TBL_BOARDREPLY
+           SET REDELETEFLAG='Y' 
+             , LASTDATE=NOW()
+             , LASTUSERNO=#{userno}
+         WHERE RENO=#{reno}       
+    </update>
+     
+    <update id="updateBoardReplyOrder4Delete" parameterType="gu.board.BoardReplyVO"> 
+        UPDATE TBL_BOARDREPLY TBR1
+         INNER JOIN TBL_BOARDREPLY TBR2 ON TBR2.BRDNO=TBR1.BRDNO AND TBR1.REORDER >TBR2.REORDER AND TBR1.REDELETEFLAG='N'
+           SET TBR1.REORDER = TBR1.REORDER - 1 
+         WHERE TBR2.RENO=#{reno} 
+    </update>
+     
+    <update id="updateBoardReply" parameterType="gu.board.BoardReplyVO">
+        UPDATE TBL_BOARDREPLY
+           SET REMEMO=#{rememo} 
+             , LASTDATE=NOW()
+             , LASTUSERNO=#{userno}
+         WHERE RENO=#{reno}
+    </update> 
+         
+</mapper>
+
