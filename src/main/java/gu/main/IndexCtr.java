@@ -81,5 +81,5 @@ public class IndexCtr {
         
         return "main/sample1";
     }
-    
+
 }

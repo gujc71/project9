@@ -23,7 +23,28 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+	<style>
+	
+.col-gu{
+	float: left;
+	width: 14%;
+	padding: 1px;
+	height: 200px;
+}
 
+@media screen and (max-width: 1024px) {
+  .col-gu{
+    width: 33%;
+  }
+}
+
+@media screen and (max-width: 412px) {
+  .col-gu{
+    width: 50%;
+  }
+}
+
+</style>
     <script src="js/jquery-2.2.3.min.js"></script>
     <script src="css/sb-admin/bootstrap.min.js"></script>
     <script src="css/sb-admin/metisMenu.min.js"></script>

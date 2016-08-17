@@ -24,12 +24,12 @@ function set_Users(usernos, usernms) {
 }
 
 function fn_search4Users() {
-	if ( ! chkInputValue("#searchKeyword", "<s:message code="common.keyword"/>")) return false;
+	if ( ! chkInputValue("#keyword4Users", "<s:message code="common.keyword"/>")) return false;
 	
     $.ajax({
     	url: "popupUsers4Users",
 		type: "post", 
-    	data: { searchKeyword : $("#searchKeyword").val() }    	
+    	data: { searchKeyword : $("#keyword4Users").val() }    	
     }).success(function(result){
     			$("#userlist4Users").html(result);
 		}    		
@@ -71,7 +71,7 @@ function fn_closeUsers() {
                     <button type="button" id="closeX" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	                <div class="col-lg-3 pull-right">
 		                   	<div class="input-group custom-search-form">
-	                        	<input class="form-control" type="text" id="searchKeyword" name="searchKeyword" onkeydown="if(event.keyCode == 13) { fn_search4Users();}">
+	                        	<input class="form-control" type="text" id="keyword4Users" name="keyword4Users" onkeydown="if(event.keyCode == 13) { fn_search4Users();}">
 	                            <span class="input-group-btn">
 	                            	<button class="btn btn-default" onclick="fn_search4Users()"><i class="fa fa-search"></i></button>
 	                            </span>

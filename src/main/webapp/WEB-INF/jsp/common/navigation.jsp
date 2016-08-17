@@ -100,7 +100,7 @@
                            	<form id="searchForm" name="searchForm"  method="post" action="boardList">
                                 <input type="hidden" name="searchType" value="brdtitle,brdmemo">
 								<div class="input-group custom-search-form">
-	                                <input class="form-control" type="text" name="searchKeyword" id="globalKeyword" placeholder="Search...">
+	                                <input class="form-control" type="text" name="globalKeyword" id="globalKeyword" placeholder="Search...">
 	                                <span class="input-group-btn">
 	                                    <button class="btn btn-default" type="button" onclick="fn_search()">
 	                                        <i class="fa fa-search"></i>

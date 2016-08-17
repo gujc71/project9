@@ -30,9 +30,10 @@
         <div class="col-md-12">
             <div class="error-template">
                 <h1>
-                     Exception Error</h1>
+                     Internal Server Error</h1>
                 <div class="error-details">
-                    Please contact the server administrator
+                    The server encountered an internal error or misconfiguration and was unable to complete your request.<br/>
+					Please contact the server administrator.
                 </div>
                 <div >
                     <a href="index" class="btn btn-default btn-lg">
