@@ -18,3 +18,55 @@
 	max-height: 400px;
 	overflow-y: auto; 
 }
+
+list{
+	max-width: 1000px;
+}
+.listTitle, .showField, .listHiddenField{
+	overflow: hidden; 
+	white-space: nowrap; 
+	text-overflow: ellipsis;
+	padding: 5px 5px 0px 5px;
+	min-height: 35px;
+}
+.listHead, .listHiddenField, .textCenter{
+	text-align:center;
+}
+
+.listTitle{
+	width: auto;
+}
+.listHead{
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+	width: 100%;
+}
+.listBody{
+	border-bottom: 1px solid #CCC;
+	width: 100%;
+}
+.showField{
+	display: none;
+}
+.field60{
+	width: 60px;	
+}
+.field100{
+	width: 100px;	
+}
+
+@media screen and (max-width: 900px) {
+	.listHead,
+	.listHiddenField {
+		display: none;
+	}
+	.listTitle {
+		_font-size: 17px;
+		width: 99%;
+	}
+	.showField{
+		display: inline-block;
+	}
+}
+
+_div {border:1px solid #cccccc}

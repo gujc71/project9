@@ -45,10 +45,10 @@ function showBoardList(ev){
 		$("#boardlistDiv").hide();
 		return;
 	}
-	var offset = $( "#boardlistBtn" ).offset();
+	var pos = $( "#boardlistBtn" ).position();
 	$("#boardlistDiv").css({
-		   "top" : parseInt(offset.top)+30 + "px",
-		   "left" : offset.left
+		   "top" : parseInt(pos.top)+30 + "px",
+		   "left" : pos.left
 	}).show();
 	
 	var node = $("#tree").dynatree("getRoot");
@@ -100,6 +100,7 @@ function TreenodeActivate(node) {
             
             <!-- /.row -->
             <div class="row">
+                <div class="col-lg-12">
 	                <button id="boardlistBtn" type="button" class="btn btn-default" onclick="showBoardList()"><i class="fa  fa-files-o fa-fw"></i> <c:out value="${bgInfo.bgname}"/></button>      
 	                <div id="boardlistDiv" style="width: 250px; height:300px; display: none;" class="popover fade bottom in" role="tooltip">
 	                	<div style="left:15%;" class="arrow"></div>
@@ -112,57 +113,55 @@ function TreenodeActivate(node) {
 			            <button type="button" class="btn btn-default pull-right" onclick="fn_moveToURL('boardForm?bgno=<c:out value="${searchVO.bgno}"/>')">
 			            <i class="fa fa-edit fa-fw"></i> <s:message code="board.new"/></button>      
 					</c:if>
+				</div>
             </div>
             <!-- /.row -->
-            <div class="row">
-				<div class="table-responsive">
-					 <table class="table table-striped table-bordered table-hover">
-						<colgroup>
-							<col width='8%' />
-							<col width='*%' />
-							<col width='15%' />
-							<col width='15%' />
-							<col width='10%' />
-							<col width='10%' />
-						</colgroup>
-						<thead>
-							<tr>
-								<th><s:message code="board.no"/></th> 
-								<th><s:message code="board.title"/></th>
-								<th><s:message code="board.writer"/></th>
-								<th><s:message code="board.date"/></th>
-								<th><s:message code="board.hitCount"/></th>
-								<th><s:message code="board.attach"/></th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="listview" items="${listview}" varStatus="status">	
-								<c:url var="link" value="boardRead">
-									<c:param name="brdno" value="${listview.brdno}" />
-								</c:url>		
-														  				
-								<tr>
-									<td style="text-align:center"><c:out value="${searchVO.totRow-((searchVO.page-1)*searchVO.displayRowCount + status.index)}"/></td>
-									<td>
-										<a href="${link}"><c:out value="${listview.brdtitle}"/></a>
-										<c:if test="${listview.replycnt>0}">
-											(<c:out value="${listview.replycnt}"/>)
-										</c:if>						
-									</td>
-									<td><a href="boardList?bgno=<c:out value="${searchVO.bgno}"/>&searchExt1=<c:out value="${listview.userno}"/>"><c:out value="${listview.brdwriter}"/></a></td>
-									<td style="text-align:center"><c:out value="${listview.brddate}"/></td>
-									<td style="text-align:center"><c:out value="${listview.brdhit}"/></td>
-									<td style="text-align:center"><c:out value="${listview.filecnt}"/></td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+            <div class="panel panel-default">
+            	<div class="panel-body">
+					<div class="listHead">
+						<div class="listHiddenField pull-left field60"><s:message code="board.no"/></div>
+						<div class="listHiddenField pull-right field60"><s:message code="board.attach"/></div>
+						<div class="listHiddenField pull-right field60"><s:message code="board.hitCount"/></div>
+						<div class="listHiddenField pull-right field100"><s:message code="board.date"/></div>
+						<div class="listHiddenField pull-right field100"><s:message code="board.writer"/></div>
+						<div class="listTitle"><s:message code="board.title"/></div>
+					</div>
+					<c:forEach var="listview" items="${listview}" varStatus="status">	
+						<c:url var="link" value="boardRead">
+							<c:param name="brdno" value="${listview.brdno}" />
+						</c:url>		
+						<div class="listBody">
+							<div class="listHiddenField pull-left field60"><c:out value="${searchVO.totRow-((searchVO.page-1)*searchVO.displayRowCount + status.index)}"/></div>
+							<div class="listHiddenField pull-right field60">
+								<c:if test="${listview.filecnt>0}">
+									<i class="fa fa-download fa-fw" title="<c:out value="${listview.filecnt}"/>"></i>
+								</c:if>	
+							</div>
+							<div class="listHiddenField pull-right field60 textCenter"><c:out value="${listview.brdhit}"/></div>
+							<div class="listHiddenField pull-right field100 textCenter"><c:out value="${listview.brddate}"/></div>
+							<div class="listHiddenField pull-right field100 textCenter"><a href="boardList?bgno=<c:out value="${searchVO.bgno}"/>&searchExt1=<c:out value="${listview.userno}"/>"><c:out value="${listview.brdwriter}"/></a></div>
+							<div class="listTitle" title="<c:out value="${listview.brdtitle}"/>">
+								<a href="${link}"><c:out value="${listview.brdtitle}"/></a>
+								<c:if test="${listview.replycnt>0}">
+									(<c:out value="${listview.replycnt}"/>)
+								</c:if>									
+							</div>
+							<div class="showField text-muted small">
+								<c:out value="${listview.brdwriter}"/> 
+								<c:out value="${listview.brddate}"/>
+								<i class="fa fa-eye fa-fw"></i> <c:out value="${listview.brdhit}"/>
+								<c:if test="${listview.filecnt>0}">
+									<i class="fa fa-download fa-fw" title="<c:out value="${listview.filecnt}"/>"></i>
+								</c:if>									
+							</div>
+						</div>
+					</c:forEach>	
 					
 					<form role="form" id="form1" name="form1"  method="post">
 					    <jsp:include page="../common/pagingforSubmit.jsp" />
 				    
 						<div class="form-group">
-							<div class="checkbox col-lg-3 ">
+							<div class="checkbox col-lg-3 pull-left">
 							 	<!-- label>
 		                        	<input type="checkbox" name="searchType" value="brdwriter" <c:if test="${fn:indexOf(searchVO.searchType, 'brdwriter')!=-1}">checked="checked"</c:if>/>
 		                        	<s:message code="board.writer"/>

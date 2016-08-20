@@ -38,7 +38,7 @@
   }
 }
 
-@media screen and (max-width: 412px) {
+@media screen and (max-width: 450px) {
   .col-gu{
     width: 50%;
   }
@@ -85,39 +85,33 @@ function fn_moveDate(date){
                             </div>
                         </div>
                         <div class="panel-body">
-							<div class="table-responsive">
-								 <table class="table table-striped table-bordered table-hover">
-									<colgroup>
-										<col width='*%' />
-										<col width='15%' />
-										<col width='15%' />
-										<col width='15%' />
-									</colgroup>
-									<thead>
-										<tr>
-											<th><s:message code="board.title"/></th>
-											<th><s:message code="board.writer"/></th>
-											<th><s:message code="board.date"/></th>
-											<th><s:message code="board.locate"/></th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach var="listview" items="${listview}" varStatus="status">	
-											<c:url var="link" value="boardRead">
-												<c:param name="brdno" value="${listview.brdno}" />
-											</c:url>		
-																	  				
-											<tr>
-												<td><a href="${link}"><c:out value="${listview.brdtitle}"/></a></td>
-												<td><c:out value="${listview.brdwriter}"/></td>
-												<td><c:out value="${listview.brddate}"/></td>
-												<td><c:out value="${listview.bgname}"/></td>
-											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-			            	</div> 
-			            	                         
+							<div class="col-lg-12">
+								<div class="listHead">
+									<div class="listHiddenField pull-right field100"><s:message code="board.locate"/></div>
+									<div class="listHiddenField pull-right field100"><s:message code="board.date"/></div>
+									<div class="listHiddenField pull-right field100"><s:message code="board.writer"/></div>
+									<div class="listTitle"><s:message code="board.title"/></div>
+								</div>
+								<c:forEach var="listview" items="${listview}" varStatus="status">	
+									<c:url var="link" value="boardRead">
+										<c:param name="brdno" value="${listview.brdno}" />
+									</c:url>		
+									<div class="listBody">
+										<div class="listHiddenField pull-right field100"><c:out value="${listview.bgname}"/></div>
+										<div class="listHiddenField pull-right field100"><c:out value="${listview.brddate}"/></div>
+										<div class="listHiddenField pull-right field100"><c:out value="${listview.brdwriter}"/></div>
+										<div class="listTitle" title="<c:out value="${listview.brdtitle}"/>">
+											<a href="${link}"><c:out value="${listview.brdtitle}"/></a>
+											<c:if test="${listview.replycnt>0}">
+												(<c:out value="${listview.replycnt}"/>)
+											</c:if>												
+										</div>
+										<div class="showField text-muted small">
+											<c:out value="${listview.brdwriter}"/> <c:out value="${listview.brddate}"/>
+										</div>
+									</div>
+								</c:forEach>	
+							</div>                        
                         </div>
                     </div>
                 </div>

@@ -49,7 +49,7 @@ public class IndexCtr {
         return "main/indexCalen";
     }
     
-    public String calCalen(Date today, ModelMap modelMap) {
+   private String calCalen(Date today, ModelMap modelMap) {
         List<DateVO> calenList = new ArrayList<DateVO>();
         int month = util4calen.getMonth();
         int week = util4calen.getWeekOfMonth();
