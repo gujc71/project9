@@ -119,9 +119,26 @@ function fn_moveDate(date){
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                            <i class="fa fa-volume-up fa-fw"></i> <s:message code="common.notice"/>
+                        </div>
+                        <div class="panel-body maxHeight400">
+							<c:forEach var="noticeList" items="${noticeList}" varStatus="status">	
+								<c:url var="link" value="boardRead">
+									<c:param name="brdno" value="${noticeList.brdno}" />
+								</c:url>	
+								<a href="${link}">
+								<div class="listBody listTitle">
+									<c:out value="${noticeList.brdtitle}"/>
+                                </div>	
+                                </a>
+							</c:forEach>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
                             <i class="fa fa-clock-o fa-fw"></i> Time Line
                         </div>
-                        <div class="panel-body height400">
+                        <div class="panel-body maxHeight400">
 							<c:forEach var="listtime" items="${listtime}" varStatus="status">	
 								<c:url var="link" value="boardRead">
 									<c:param name="brdno" value="${listtime.brdno}" />
@@ -134,8 +151,9 @@ function fn_moveDate(date){
                                 </a>
 							</c:forEach>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
+                <!-- col-lg-4 -->
             </div>
         </div>
         <!-- /#page-wrapper -->

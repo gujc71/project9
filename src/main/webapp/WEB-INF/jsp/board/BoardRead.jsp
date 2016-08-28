@@ -81,15 +81,15 @@ function fn_replyUpdate(reno){
 		$("#replyDiv").appendTo(document.body);
 		$("#reply"+updateReno).text(updateRememo);
 	} 
+	updateReno   = reno;
+	updateRememo = $("#reply"+reno).html();
 	
 	$("#reno2").val(reno);
-	$("#rememo2").val($("#reply"+reno).text());
+	$("#rememo2").text( html2Text(updateRememo) );
 	$("#reply"+reno).text("");
 	$("#replyDiv").appendTo($("#reply"+reno));
 	$("#replyDiv").show();
 	$("#rememo2").focus();
-	updateReno   = reno;
-	updateRememo = $("#rememo2").val();
 } 
 
 function fn_replyUpdateSave(){
@@ -103,7 +103,7 @@ function fn_replyUpdateSave(){
 			if (result!=="") {
 				$("#replyDiv").appendTo(document.body);
 				$("#replyDiv").hide();
-				$("#reply"+updateReno).text($("#rememo2").val());
+				$("#reply"+updateReno).html( text2Html($("#rememo2").text()) );
 				alert("<s:message code="msg.boardSave"/>");
 			} else{
 				alert("<s:message code="msg.err.save4error"/>");
@@ -116,7 +116,7 @@ function fn_replyUpdateSave(){
 function fn_replyUpdateCancel(){
 	hideDiv("#replyDiv");
 	
-	$("#reply"+updateReno).text(updateRememo);
+	$("#reply"+updateReno).html(updateRememo);
 	updateReno = updateRememo = null;
 } 
 
@@ -161,6 +161,19 @@ function fn_replyReplySave(){
 		}
 	})	
 }
+function fn_addBoardLike(brdno){
+	$.ajax({
+		url: "addBoardLike",
+		type:"post", 
+		data : {brdno: brdno},
+		success: function(result){
+			if (result==="OK") {
+				$("#boardLikeBtn").hide();
+				$("#boardLike").text( parseInt($("#boardLike").text())+1);
+			}
+		}
+	})	
+}
 
 </script>    
 </head>
@@ -184,28 +197,33 @@ function fn_replyReplySave(){
 				<div class="panel panel-default">
                     <div class="panel-heading">
                         	<c:out value="${boardInfo.brdtitle}"/> [ <c:out value="${boardInfo.brdwriter}"/> <c:out value="${boardInfo.brddate}"/>]
-                        <span class="pull-right text-muted small">
+                        <span class="pull-right text-muted">
                         	<i class="fa fa-eye fa-fw"></i> <c:out value="${boardInfo.brdhit}"/>
+                        	<i class="fa fa-thumbs-o-up fa-fw"></i> <span id="boardLike"><c:out value="${boardInfo.brdlike}"/></span>
                         </span>
                     </div>
                     <div class="panel-body">
                         <p><c:out value="${boardInfo.brdmemo}" escapeXml="false"/></p>
                     </div>
-                    <c:if test="listview.size()>0">
-                     <div class="panel-footer">
-                         <c:forEach var="listview" items="${listview}" varStatus="status">	
-           				<a href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>"> 							 
-						<c:out value="${listview.filename}"/></a> <c:out value="${listview.size2String()}"/><br/>
-					</c:forEach>
-                     </div>
+                    <c:if test="${listview.size()>0}">
+		                <div class="panel-footer">
+		                	<c:forEach var="listview" items="${listview}" varStatus="status">	
+		           				<a href="fileDownload?filename=<c:out value="${listview.filename}"/>&downname=<c:out value="${listview.realname }"/>"> 							 
+								<c:out value="${listview.filename}"/></a> <c:out value="${listview.size2String()}"/><br/>
+							</c:forEach>
+	                     </div>
                     </c:if>
                 </div>
-                <button class="btn btn-outline btn-primary" onclick="fn_moveToURL('boardList?bgno=<c:out value="${boardInfo.bgno}"/>')" ><s:message code="common.btnList"/></button>
+                <button class="btn btn-outline btn-primary" onclick="fn_moveToURL('boardList?bgno=<c:out value="${bgno}"/>')" ><s:message code="common.btnList"/></button>
 				<c:if test='${boardInfo.userno==sessionScope.userno}' >
 	                <button class="btn btn-outline btn-primary" onclick="fn_moveToURL('boardDelete?bgno=<c:out value="${boardInfo.bgno}"/>&brdno=<c:out value="${boardInfo.brdno}"/>', '<s:message code="common.btnDelete"/>')" ><s:message code="common.btnDelete"/></button>
 	                <button class="btn btn-outline btn-primary" onclick="fn_moveToURL('boardForm?brdno=<c:out value="${boardInfo.brdno}"/>')" ><s:message code="common.btnUpdate"/></button>
 				</c:if>
-				                               
+				
+				<c:if test="${boardInfo.brdlikechk == null}" >
+	                <button id="boardLikeBtn" class="btn btn-outline btn-primary pull-right" onclick="fn_addBoardLike(<c:out value="${boardInfo.brdno}"/>)" ><i class="fa fa-thumbs-o-up fa-fw"></i> <s:message code="common.like"/></button>
+				</c:if>
+							                               
 				<p>&nbsp;</p>
 				<input type="hidden" id="brdno" name="brdno" value="<c:out value="${boardInfo.brdno}"/>"> 
 				
@@ -224,27 +242,43 @@ function fn_replyReplySave(){
 					<div id="replyList"> 
 						<c:forEach var="replylist" items="${replylist}" varStatus="status">
 							<div class="panel panel-default" id="replyItem<c:out value="${replylist.reno}"/>" style="margin-left: <c:out value="${20*replylist.redepth}"/>px;">
-		                        <div class="panel-heading"> 
-									<c:out value="${replylist.rewriter}"/> <c:out value="${replylist.redate}"/>
-									<c:if test='${replylist.userno==sessionScope.userno}' >
-										<a href="javascript:fn_replyDelete('<c:out value="${replylist.reno}"/>')" title="<s:message code="common.btnDelete"/>" ><span class="text-muted"><i class="fa fa-times fa-fw"></i></span></span></a>
-										<a href="javascript:fn_replyUpdate('<c:out value="${replylist.reno}"/>')" title="<s:message code="common.btnUpdate"/>" ><span class="text-muted"><i class="fa fa-edit fa-fw"></i></span></a>
-									</c:if>
-									<a href="javascript:fn_replyReply('<c:out value="${replylist.reno}"/>')" title="<s:message code="common.btnReply"/>" ><span class="text-muted"><i class="fa fa-comments fa-fw"></i></span></a>
-		                        </div>
-		                        <div class="panel-body" id="reply<c:out value="${replylist.reno}"/>"><c:out value="${replylist.rememo}"/></div>
-	                    	</div>
+			                	<div class="panel-body">
+			                   		<div class="pull-left photoOutline">
+										<a href="" class="photoLink">
+											<c:choose>
+											    <c:when test="${replylist.photo==null}">
+													<i class="glyphicon glyphicon-user" style="font-size: 29pt; color:#337ab7"></i>
+											    </c:when>
+											    <c:otherwise>
+											    	<img src="fileDownload?downname=<c:out value="${replylist.photo}"/>" title="<c:out value="${replylist.rewriter}"/>"/>
+											    </c:otherwise>
+											</c:choose>
+										</a>
+									</div>					
+				                   	<div class="photoTitle">
+										<div> 
+											<c:out value="${replylist.rewriter}"/> <c:out value="${replylist.redate}"/>
+											<c:if test='${replylist.userno==sessionScope.userno}' >
+												<a href="javascript:fn_replyDelete('<c:out value="${replylist.reno}"/>')" title="<s:message code="common.btnDelete"/>" ><span class="text-muted"><i class="fa fa-times fa-fw"></i></span></span></a>
+												<a href="javascript:fn_replyUpdate('<c:out value="${replylist.reno}"/>')" title="<s:message code="common.btnUpdate"/>" ><span class="text-muted"><i class="fa fa-edit fa-fw"></i></span></a>
+											</c:if>
+											<a href="javascript:fn_replyReply('<c:out value="${replylist.reno}"/>')" title="<s:message code="common.btnReply"/>" ><span class="text-muted"><i class="fa fa-comments fa-fw"></i></span></a>
+										</div>
+										<div id="reply<c:out value="${replylist.reno}"/>"><c:out value="${replylist.getRememoByHTML()}" escapeXml="false"/></div>
+									</div>
+								</div>
+				            </div>						
 						</c:forEach>
 					</div>
 				</c:if>
-		
+
 				<div id="replyDiv" style="width: 99%; display:none">
 						<input type="hidden" id="brdno2" name="brdno" value="<c:out value="${boardInfo.brdno}"/>"> 
 						<input type="hidden" id="reno2" name="reno">
 						<div class="col-lg-6">
 							<textarea class="form-control" id="rememo2" name="rememo2" rows="3" maxlength="500"></textarea>
 						</div>
-						<div class="col-lg-6">
+						<div class="col-lg-2 pull-left">
                				<button class="btn btn-outline btn-primary" onclick="fn_replyUpdateSave()"><s:message code="common.btnSave"/></button>
                				<button class="btn btn-outline btn-primary" onclick="fn_replyUpdateCancel()"><s:message code="common.btnCancel"/></button>
 						</div>
@@ -257,7 +291,7 @@ function fn_replyReplySave(){
 						<div class="col-lg-6">
 							<textarea class="form-control" id="rememo3" name="rememo3" rows="3" maxlength="500"></textarea>
 						</div>
-						<div class="col-lg-6">
+						<div class="col-lg-2 pull-left">
                				<button class="btn btn-outline btn-primary" onclick="fn_replyReplySave()"><s:message code="common.btnSave"/></button>
                				<button class="btn btn-outline btn-primary" onclick="fn_replyReplyCancel()"><s:message code="common.btnCancel"/></button>
 						</div>

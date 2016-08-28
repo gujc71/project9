@@ -21,11 +21,11 @@
 	       <mvc:exclude-mapping path="/memberLoginChk"/> 
 	       <mvc:exclude-mapping path="/js/**"/> 
 	       <mvc:exclude-mapping path="/css/**"/> 
-	       <bean class="gu.common.loginInterceptor"/>
+	       <bean class="gu.common.LoginInterceptor"/>
 	    </mvc:interceptor>
 	    <mvc:interceptor>
 	       <mvc:mapping path="/ad*"/>  
-	       <bean class="gu.common.adminInterceptor"/>
+	       <bean class="gu.common.AdminInterceptor"/>
 	    </mvc:interceptor>
 	</mvc:interceptors>
 	

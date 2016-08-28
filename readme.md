@@ -10,6 +10,7 @@
 - 사용자 선택: 부서, 사용자 선택 기능 (팝업)
 - 다국어 처리
 - 디자인: SB-Admin으로 부트스트랩기반  반응형 웹 적용
+- CKEditor
 - 공통 에러 페이지 처리(404, 500)
 
 
@@ -27,4 +28,6 @@
 - http://localhost:8080/project9/로 접속
 - ID/PW: admin/admin, user1/user1, user2/user2 ...
 
+### License ###
+MIT
   

@@ -4,7 +4,7 @@
 ul.dynatree-container
 {
 	font-family: tahoma, arial, helvetica;
-	font-size: 10pt; /* font size should not be too big */
+	_font-size: 10pt; /* font size should not be too big */
 	white-space: nowrap;
 	_padding: 10px;				 /* by 9*/
 	padding: 10px 0 10px 0;				 /* by 9*/
@@ -295,7 +295,7 @@ ul.dynatree-container a:hover
 
 span.dynatree-node a
 {
-	font-size: 10pt; /* required for IE, quirks mode */
+	_font-size: 10pt; /* required for IE, quirks mode */
 	display: inline-block; /* Better alignment, when title contains <br> */
 /*	vertical-align: top;*/
 	padding-left: 3px;

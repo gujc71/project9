@@ -20,4 +20,7 @@ public class IndexSvc {
         return sqlSession.selectList("selectTimeLine", param);
     }
     
+    public List<?> selectNoticeListTop5() {
+        return sqlSession.selectList("selectNoticeListTop5");
+    }    
 }

@@ -15,9 +15,9 @@
         <Logger name="java.sql.ResultSet" level="WARN" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
- 		<logger name="jdbc.resultsettable" level="WARN" additivity="false">  
-        	<appender-ref ref="console"/>  
-    	</logger>
+         <logger name="jdbc.resultsettable" level="WARN" additivity="false">  
+            <appender-ref ref="console"/>  
+        </logger>
         <Logger name="java.sql.sqlonly" level="DEBUG" additivity="true">
             <AppenderRef ref="console" />
         </Logger>   

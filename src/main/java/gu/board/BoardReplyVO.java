@@ -1,5 +1,7 @@
 package gu.board;
 
+import gu.common.UtilEtc;
+
 public class BoardReplyVO {
 
     private String brdno;
@@ -11,7 +13,12 @@ public class BoardReplyVO {
     private String redepth;
     private Integer reorder;
     private String userno;
+    private String photo;
 
+    public String getRememoByHTML() {
+        return UtilEtc.text2Html(rememo);
+    }
+    
     public String getBrdno() {
         return brdno;
     }
@@ -76,12 +83,20 @@ public class BoardReplyVO {
         this.reorder = reorder;
     }
 
-	public String getUserno() {
-		return userno;
-	}
+    public String getUserno() {
+        return userno;
+    }
 
-	public void setUserno(String userno) {
-		this.userno = userno;
-	}
+    public void setUserno(String userno) {
+        this.userno = userno;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
     
 }

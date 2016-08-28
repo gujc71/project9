@@ -120,7 +120,10 @@
                             <a href="boardList"><i class="fa fa-files-o fa-fw"></i> <s:message code="board.boardName"/></a>
                         </li>
                         <li>
-                            <a href="sample1"><i class="fa fa-files-o fa-fw"></i> 샘플 1</a>
+                            <a href="sample1"><i class="fa fa-music fa-fw"></i> 샘플 1</a>
+                        </li>
+                        <li>
+                            <a href="sample2"><i class="fa fa-music fa-fw"></i> 샘플 2</a>
                         </li>
                         <c:if test='${sessionScope.userrole == "A"}'>
 	                        <li>

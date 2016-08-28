@@ -14,7 +14,7 @@ import gu.admin.organ.UserSvc;
 import gu.common.FileUtil;
 import gu.common.FileVO;
 import gu.common.SearchVO;
-import gu.common.utiletc;
+import gu.common.UtilEtc;
 
 
 @Controller 
@@ -52,7 +52,7 @@ public class MemberCtr {
         
         FileUtil fs = new FileUtil();
         FileVO fileInfo = fs.saveFile(userInfo.getPhotofile());
-        if (fileInfo !=null){
+        if (fileInfo != null) {
             userInfo.setPhoto(fileInfo.getRealname());
         }
         userSvc.updateUserByMe(userInfo);
@@ -70,7 +70,7 @@ public class MemberCtr {
         
         userSvc.updateUserPassword(userInfo);
 
-        utiletc.responseJsonValue(response,"OK");
+        UtilEtc.responseJsonValue(response,"OK");
     }
     
     /**
@@ -79,7 +79,7 @@ public class MemberCtr {
     @RequestMapping(value = "/searchMember")
     public String searchMember(SearchVO searchVO, ModelMap modelMap) {
         
-        if (searchVO.getSearchKeyword()!=null & !"".equals(searchVO.getSearchKeyword())) {
+        if (searchVO.getSearchKeyword() != null & !"".equals(searchVO.getSearchKeyword())) {
             searchVO.pageCalculate( memberSvc.selectSearchMemberCount(searchVO) ); // startRow, endRow
             
             List<?> listview = memberSvc.selectSearchMemberList(searchVO);

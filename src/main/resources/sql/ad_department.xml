@@ -5,7 +5,7 @@
     <select id="selectDepartment" resultType="gu.common.TreeVO" >
         SELECT DEPTNO 'KEY', DEPTNM TITLE, PARENTNO PARENT
           FROM COM_DEPT
-		 WHERE DELETEFLAG='N' 
+         WHERE DELETEFLAG='N' 
          ORDER BY DEPTNO  
     </select> 
     
@@ -13,16 +13,16 @@
         <selectKey resultType="String" keyProperty="deptno" order="BEFORE">
             SELECT IFNULL(MAX(DEPTNO),0)+1 FROM COM_DEPT
         </selectKey>    
-    	INSERT INTO COM_DEPT(DEPTNO, DEPTNM, PARENTNO, DELETEFLAG)
-		VALUES (#{deptno}, #{deptnm}, #{parentno}, 'N')
-	</insert>
-	
+        INSERT INTO COM_DEPT(DEPTNO, DEPTNM, PARENTNO, DELETEFLAG)
+        VALUES (#{deptno}, #{deptnm}, #{parentno}, 'N')
+    </insert>
+    
     <update id="updateDepartment" parameterType="gu.admin.organ.DepartmentVO">
         UPDATE COM_DEPT
            SET DEPTNM=#{deptnm}
          WHERE DEPTNO=#{deptno}
     </update> 
-		
+        
     <select id="selectDepartmentOne" parameterType="String" resultType="gu.admin.organ.DepartmentVO">
         SELECT DEPTNO, DEPTNM
           FROM COM_DEPT

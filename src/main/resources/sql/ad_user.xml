@@ -5,7 +5,7 @@
     <select id="selectUserList" parameterType="String" resultType="gu.member.UserVO">
         SELECT USERNO, USERID, USERNM, USERPW, PHOTO, DEPTNO, CODENM USERROLE
           FROM COM_USER CU
-		 INNER JOIN COM_CODE CC ON CC.CODECD=CU.USERROLE
+         INNER JOIN COM_CODE CC ON CC.CODECD=CU.USERROLE
          WHERE DELETEFLAG='N' AND DEPTNO=#{deptno} 
            AND CC.CLASSNO=1          
     </select> 
@@ -13,13 +13,13 @@
     <select id="selectUserListWithDept" parameterType="gu.common.SearchVO" resultType="gu.member.UserVO">
         SELECT USERNO, USERID, USERNM, USERPW, PHOTO, CU.DEPTNO, DEPTNM
           FROM COM_USER CU
-		 INNER JOIN COM_DEPT CD ON CD.DEPTNO=CU.DEPTNO
+         INNER JOIN COM_DEPT CD ON CD.DEPTNO=CU.DEPTNO
          WHERE CU.DELETEFLAG='N' AND CD.DELETEFLAG='N'
            <if test="searchExt1!=null and searchExt1!=''">
-	           AND CU.DEPTNO=#{searchExt1} 
+               AND CU.DEPTNO=#{searchExt1} 
            </if>
            <if test="searchKeyword!=null and searchKeyword!=''">
-	           AND CU.USERNM LIKE CONCAT('%', #{searchKeyword}, '%') 
+               AND CU.USERNM LIKE CONCAT('%', #{searchKeyword}, '%') 
            </if>
     </select> 
     
@@ -40,8 +40,8 @@
            SET USERNM=#{usernm}
              , USERROLE=#{userrole}
              <if test="photo!=null and photo!=''"> 
-             	, PHOTO=#{photo}
-             </if>	 
+                 , PHOTO=#{photo}
+             </if>     
          WHERE DELETEFLAG='N'
            AND USERNO=#{userno} 
     </update> 
@@ -50,8 +50,8 @@
         UPDATE COM_USER
            SET USERNM=#{usernm}
              <if test="photo!=null and photo!=''"> 
-             	, PHOTO=#{photo}
-             </if>	 
+                 , PHOTO=#{photo}
+             </if>     
          WHERE DELETEFLAG='N'
            AND USERNO=#{userno} 
     </update> 

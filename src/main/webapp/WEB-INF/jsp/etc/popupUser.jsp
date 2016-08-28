@@ -51,7 +51,7 @@ function fn_search() {
 			            		<div class="panel-heading">
 			                            <s:message code="common.deptList"/>
 			                    </div>
-			                    <div class="height400">
+			                    <div class="maxHeight400">
 							    	<div id="tree">
 									</div>
 								</div>
@@ -62,7 +62,7 @@ function fn_search() {
 			            		<div class="panel-heading">
 			            			<s:message code="common.userList"/>
 			                    </div>
-			                    <div class="panel-body height400" id="userlist">
+			                    <div class="panel-body maxHeight400" id="userlist">
 							    </div>    
 							</div>
 						</div>	

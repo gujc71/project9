@@ -88,7 +88,7 @@ function fn_closeUsers() {
 			            		<div class="panel-heading">
 			                            <s:message code="common.deptList"/>
 			                    </div>
-			                    <div class="height400">
+			                    <div class="maxHeight400">
 							    	<div id="deptTree4Users">
 									</div>
 								</div>
@@ -99,7 +99,7 @@ function fn_closeUsers() {
 			            		<div class="panel-heading">
 			            			<s:message code="common.userList"/>
 			                    </div>
-			                    <div class="panel-body height400" id="userlist4Users">
+			                    <div class="panel-body maxHeight400" id="userlist4Users">
 							    </div>    
 							</div>
 						</div>	
@@ -108,7 +108,7 @@ function fn_closeUsers() {
 			            		<div class="panel-heading">
 			            			<s:message code="common.selectedUser"/>
 			                    </div>
-			                    <div class="panel-body height400">
+			                    <div class="panel-body maxHeight400">
 									 <table  id="seletedUsers" class="table table-striped table-bordered table-hover">
 										<colgroup>
 											<col width='80%' />

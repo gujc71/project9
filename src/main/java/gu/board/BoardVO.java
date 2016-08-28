@@ -17,6 +17,9 @@ public class BoardVO {
     private String filecnt;
     private String replycnt;
     private String userno;
+    private String brdnotice;
+    private String brdlike;
+    private String brdlikechk;          // like button click check
     
     /* 첨부파일 */
     private List<MultipartFile> uploadfile;
@@ -30,14 +33,14 @@ public class BoardVO {
     }
 
     public String getBgname() {
-		return bgname;
-	}
+        return bgname;
+    }
 
-	public void setBgname(String bgname) {
-		this.bgname = bgname;
-	}
+    public void setBgname(String bgname) {
+        this.bgname = bgname;
+    }
 
-	public String getBrdno() {
+    public String getBrdno() {
         return brdno;
     }
 
@@ -117,12 +120,36 @@ public class BoardVO {
         this.replycnt = replycnt;
     }
 
-	public String getUserno() {
-		return userno;
-	}
+    public String getUserno() {
+        return userno;
+    }
 
-	public void setUserno(String userno) {
-		this.userno = userno;
-	}
+    public void setUserno(String userno) {
+        this.userno = userno;
+    }
+
+    public String getBrdnotice() {
+        return brdnotice;
+    }
+
+    public void setBrdnotice(String brdnotice) {
+        this.brdnotice = brdnotice;
+    }
+
+    public String getBrdlike() {
+        return brdlike;
+    }
+
+    public void setBrdlike(String brdlike) {
+        this.brdlike = brdlike;
+    }
+
+    public String getBrdlikechk() {
+        return brdlikechk;
+    }
+
+    public void setBrdlikechk(String brdlikechk) {
+        this.brdlikechk = brdlikechk;
+    }
     
 }

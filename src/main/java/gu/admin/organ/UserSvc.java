@@ -12,43 +12,45 @@ import gu.member.UserVO;
 @Service
 public class UserSvc {
 
-	@Autowired
-	private SqlSessionTemplate sqlSession;	
-		
-    public List<?> selectUserList(String param){
-		return sqlSession.selectList("selectUserList", param);
+    @Autowired
+    private SqlSessionTemplate sqlSession;    
+        
+    public List<?> selectUserList(String param) {
+        return sqlSession.selectList("selectUserList", param);
     }
     
-    public List<?> selectUserListWithDept(SearchVO param){
+    public List<?> selectUserListWithDept(SearchVO param) {
         return sqlSession.selectList("selectUserListWithDept", param);
     }
     
-    public void insertUser(UserVO param){
-    	if (param.getUserno()==null || "".equals(param.getUserno()))
-    		 sqlSession.insert("insertUser", param);
-    	else sqlSession.insert("updateUser", param);
+    public void insertUser(UserVO param) {
+        if (param.getUserno() == null || "".equals(param.getUserno())) {
+             sqlSession.insert("insertUser", param);
+        } else {
+            sqlSession.insert("updateUser", param);
+        }
     }
     
-    public String selectUserID(String param){
-		return sqlSession.selectOne("selectUserID", param);
+    public String selectUserID(String param) {
+        return sqlSession.selectOne("selectUserID", param);
     }
 
-    public UserVO selectUserOne(String param){
-		return sqlSession.selectOne("selectUserOne", param);
+    public UserVO selectUserOne(String param) {
+        return sqlSession.selectOne("selectUserOne", param);
     }
     
-    public void deleteUser(String param){
-		sqlSession.delete("deleteUser", param);
+    public void deleteUser(String param) {
+        sqlSession.delete("deleteUser", param);
     }
 
     /*
      * 사용자 
      */
-    public void updateUserByMe(UserVO param){
+    public void updateUserByMe(UserVO param) {
         sqlSession.delete("updateUserByMe", param);
     }
     
-    public void updateUserPassword(UserVO param){
+    public void updateUserPassword(UserVO param) {
         sqlSession.delete("updateUserPassword", param);
     }
 

@@ -29,7 +29,7 @@ $(function(){
 		            <!-- /.row -->
 		            <div class="row">
 		            	<div class="col-lg-12" >
-			            	<div class="panel panel-default height400" >
+			            	<div class="panel panel-default maxHeight400" >
 							    	<div id="deptTree">
 									</div>
 							</div>

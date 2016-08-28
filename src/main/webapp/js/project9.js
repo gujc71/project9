@@ -13,3 +13,13 @@ function fn_moveToURL(url, msg){
 	}
 	location.href=url;
 }
+
+function html2Text(str) {
+    str = str.replace(/&nbsp;/gi, " ");
+    return str.replace(/<br>/gi, "\n");
+}
+
+function text2Html(str) {
+    str = str.replace(/ /g, "&nbsp;");
+    return str.replace(/\n/g, "<br>");
+} 

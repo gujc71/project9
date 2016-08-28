@@ -109,7 +109,7 @@ function TreenodeActivate(node) {
 	                	</div>
 	                </div>
                 
-					<c:if test="${bgInfo.bgreadonly=='N'}">
+					<c:if test="${bgInfo.bgreadonly=='N' || sessionScope.userrole=='A'}">
 			            <button type="button" class="btn btn-default pull-right" onclick="fn_moveToURL('boardForm?bgno=<c:out value="${searchVO.bgno}"/>')">
 			            <i class="fa fa-edit fa-fw"></i> <s:message code="board.new"/></button>      
 					</c:if>
@@ -126,37 +126,28 @@ function TreenodeActivate(node) {
 						<div class="listHiddenField pull-right field100"><s:message code="board.writer"/></div>
 						<div class="listTitle"><s:message code="board.title"/></div>
 					</div>
-					<c:forEach var="listview" items="${listview}" varStatus="status">	
-						<c:url var="link" value="boardRead">
-							<c:param name="brdno" value="${listview.brdno}" />
-						</c:url>		
-						<div class="listBody">
-							<div class="listHiddenField pull-left field60"><c:out value="${searchVO.totRow-((searchVO.page-1)*searchVO.displayRowCount + status.index)}"/></div>
-							<div class="listHiddenField pull-right field60">
-								<c:if test="${listview.filecnt>0}">
-									<i class="fa fa-download fa-fw" title="<c:out value="${listview.filecnt}"/>"></i>
-								</c:if>	
-							</div>
-							<div class="listHiddenField pull-right field60 textCenter"><c:out value="${listview.brdhit}"/></div>
-							<div class="listHiddenField pull-right field100 textCenter"><c:out value="${listview.brddate}"/></div>
-							<div class="listHiddenField pull-right field100 textCenter"><a href="boardList?bgno=<c:out value="${searchVO.bgno}"/>&searchExt1=<c:out value="${listview.userno}"/>"><c:out value="${listview.brdwriter}"/></a></div>
-							<div class="listTitle" title="<c:out value="${listview.brdtitle}"/>">
-								<a href="${link}"><c:out value="${listview.brdtitle}"/></a>
-								<c:if test="${listview.replycnt>0}">
-									(<c:out value="${listview.replycnt}"/>)
-								</c:if>									
-							</div>
-							<div class="showField text-muted small">
-								<c:out value="${listview.brdwriter}"/> 
-								<c:out value="${listview.brddate}"/>
-								<i class="fa fa-eye fa-fw"></i> <c:out value="${listview.brdhit}"/>
-								<c:if test="${listview.filecnt>0}">
-									<i class="fa fa-download fa-fw" title="<c:out value="${listview.filecnt}"/>"></i>
-								</c:if>									
-							</div>
-						</div>
-					</c:forEach>	
 					
+					<c:forEach var="listview" items="${noticelist}" varStatus="status">
+						<c:set var="listitem" value="${listview}" scope="request" />	
+						<c:set var="listitemNo" value="" />	
+						<jsp:include page="BoardListSub.jsp" >
+							<jsp:param name="listitemNo" value="${listitemNo}" />
+							<jsp:param name="listitem" value="${listitem}" />
+						</jsp:include>
+					</c:forEach>					
+					<c:if test="${listview.size()==0}">
+						<div class="listBody height200">
+						</div>
+					</c:if>
+					<c:forEach var="listview" items="${listview}" varStatus="status">
+						<c:set var="listitem" value="${listview}" scope="request" />	
+						<c:set var="listitemNo" value="${searchVO.totRow-((searchVO.page-1)*searchVO.displayRowCount + status.index)}" scope="request" />	
+						<jsp:include page="BoardListSub.jsp" >
+							<jsp:param name="listitemNo" value="${listitemNo}" />
+							<jsp:param name="listitem" value="${listitem}" />
+						</jsp:include>
+					</c:forEach>	
+					<br/>
 					<form role="form" id="form1" name="form1"  method="post">
 					    <jsp:include page="../common/pagingforSubmit.jsp" />
 				    

@@ -12,7 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import gu.common.DateVO;
-import gu.common.util4calen;
+import gu.common.Util4calen;
 
 
 @Controller 
@@ -24,14 +24,16 @@ public class IndexCtr {
     public String index(HttpServletRequest request, ModelMap modelMap) {
         String userno = request.getSession().getAttribute("userno").toString();
 
-        Date today = util4calen.getToday(); 
+        Date today = Util4calen.getToday(); 
 
         calCalen(today, modelMap);
         
         List<?> listview = indexSvc.selectRecentNews();
+        List<?> noticeList = indexSvc.selectNoticeListTop5();
         List<?> listtime = indexSvc.selectTimeLine(userno);
         
         modelMap.addAttribute("listview", listview);
+        modelMap.addAttribute("noticeList", noticeList);
         modelMap.addAttribute("listtime", listtime);
 
         return "main/index";
@@ -41,37 +43,38 @@ public class IndexCtr {
     public String moveDate(HttpServletRequest request, ModelMap modelMap) {
         String date = request.getParameter("date");
 
-        Date today = util4calen.getToday();
-        util4calen.setToday(date);
+        Date today = Util4calen.getToday(date);
         
         calCalen(today, modelMap);
         
         return "main/indexCalen";
     }
     
-   private String calCalen(Date today, ModelMap modelMap) {
+   private String calCalen(Date targetDay, ModelMap modelMap) {
         List<DateVO> calenList = new ArrayList<DateVO>();
-        int month = util4calen.getMonth();
-        int week = util4calen.getWeekOfMonth();
         
-        Date fweek = util4calen.getFirstOfWeek();
-        Date lweek = util4calen.getLastOfWeek();
-        Date preWeek = util4calen.DateAdd(fweek, -1);
-        Date nextWeek = util4calen.DateAdd(lweek, 1);
+        Date today = Util4calen.getToday();
+        int month = Util4calen.getMonth(targetDay);
+        int week = Util4calen.getWeekOfMonth(targetDay);
+        
+        Date fweek = Util4calen.getFirstOfWeek(targetDay);
+        Date lweek = Util4calen.getLastOfWeek(targetDay);
+        Date preWeek = Util4calen.dateAdd(fweek, -1);
+        Date nextWeek = Util4calen.dateAdd(lweek, 1);
         
         while (fweek.compareTo(lweek) <= 0) {
-            DateVO dvo = util4calen.Date2VO(fweek);
-            dvo.setIstoday(fweek.compareTo(today)==0);
+            DateVO dvo = Util4calen.date2VO(fweek);
+            dvo.setIstoday(Util4calen.dateDiff(fweek, today) == 0);
             calenList.add(dvo);
             
-            fweek = util4calen.DateAdd(fweek, 1);
+            fweek = Util4calen.dateAdd(fweek, 1);
         }
         
         modelMap.addAttribute("month", month);
         modelMap.addAttribute("week", week);
         modelMap.addAttribute("calenList", calenList);
-        modelMap.addAttribute("preWeek", util4calen.Date2Str(preWeek));
-        modelMap.addAttribute("nextWeek", util4calen.Date2Str(nextWeek));
+        modelMap.addAttribute("preWeek", Util4calen.date2Str(preWeek));
+        modelMap.addAttribute("nextWeek", Util4calen.date2Str(nextWeek));
 
         return "main/index";
     }
@@ -80,6 +83,14 @@ public class IndexCtr {
     public String sample1() {
         
         return "main/sample1";
+    }
+    
+    @RequestMapping(value = "/sample2")
+    public String sample2(ModelMap modelMap) {
+        String today = Util4calen.date2Str(Util4calen.getToday());
+        
+        modelMap.addAttribute("today", today);
+        return "main/sample2";
     }
 
 }

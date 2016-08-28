@@ -28,10 +28,17 @@
     <script src="css/sb-admin/bootstrap.min.js"></script>
     <script src="css/sb-admin/metisMenu.min.js"></script>
     <script src="css/sb-admin/sb-admin-2.js"></script>
+	<script src="js/ckeditor/ckeditor.js"></script>
 	<script src="js/project9.js"></script>    
 
 <script>
+window.onload =function() {
+	  CKEDITOR.replace( 'brdmemo', { 'filebrowserUploadUrl': 'AAA.PHP'});
+}	  
+
 function fn_formSubmit(){
+	CKEDITOR.instances["brdmemo"].updateElement();
+	
 	if ( ! chkInputValue("#brdtitle", "<s:message code="board.title"/>")) return false;
 	if ( ! chkInputValue("#brdmemo", "<s:message code="board.contents"/>")) return false;
 	
@@ -64,6 +71,12 @@ function fn_formSubmit(){
 	                            <label class="col-lg-1"><s:message code="board.title"/></label>
 	                            <div class="col-lg-9">
 	                            	<input type="text" class="form-control" id="brdtitle" name="brdtitle" size="70" maxlength="250" value="<c:out value="${boardInfo.brdtitle}"/>">
+	                            	<c:if test="${bgInfo.bgnotice=='Y'}">
+									 	<label>
+				                        	<input type="checkbox" name="brdnotice" value="Y" <c:if test="${boardInfo.brdnotice=='Y'}">checked="checked"</c:if>/>
+				                        	<s:message code="common.notice"/>
+				                        </label>
+	                            	</c:if>
 	                            </div>
 	                        </div>
 	                    	<div class="row form-group">

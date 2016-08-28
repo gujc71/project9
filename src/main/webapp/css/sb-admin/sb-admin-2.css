@@ -352,3 +352,102 @@ table.dataTable thead .sorting:after {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+
+
+
+/* ----------------------------------------------------------------------- 
+  add by 9
+ */
+.table>thead>tr>th{
+	text-align:center;
+}
+
+.height100 {
+	min-height:100%;
+}
+
+.maxHeight400 {
+	max-height: 400px;
+	overflow-y: auto;
+}
+
+.height200 {
+	height: 200px;
+	overflow-y: auto;
+}
+
+.notice {
+		color: red;
+		font-weight:bold;
+}
+
+list{
+	max-width: 1000px;
+}
+.listTitle, .showField, .listHiddenField{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding: 5px 5px 0px 5px;
+	min-height: 35px;
+}
+.listHead, .listHiddenField, .textCenter{
+	text-align:center;
+}
+
+.listTitle{
+	width: auto;
+}
+.listHead{
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+	width: 100%;
+}
+.listBody{
+	border-bottom: 1px solid #CCC;
+	width: 100%;
+}
+.showField{
+	display: none;
+}
+.field60{
+	width: 60px;
+}
+.field100{
+	width: 100px;
+}
+
+@media screen and (max-width: 900px) {
+	.listHead,
+	.listHiddenField {
+		display: none;
+	}
+	.listTitle {
+		_font-size: 17px;
+		width: 99%;
+	}
+	.showField{
+		display: inline-block;
+	}
+}
+
+.photoOutline {
+	width:42px;
+	vertical-align: top; 
+}
+.photoLink {
+	width: 42px; 
+	height: 42px; 
+	border: 1px solid #ededed; 
+	border-radius: 50%; 
+	overflow: hidden;
+}
+
+.photoTitle{
+	width: auto;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	min-height: 35px;
+}
+_div {border:1px solid #cccccc}

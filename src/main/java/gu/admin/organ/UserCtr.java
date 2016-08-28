@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import gu.common.FileUtil;
 import gu.common.FileVO;
 import gu.common.TreeMaker;
-import gu.common.utiletc;
+import gu.common.UtilEtc;
 import gu.member.UserVO;
 
 @Controller
@@ -25,16 +25,18 @@ public class UserCtr {
     @Autowired
     private UserSvc userSvc;
     
-    // 리스트
+    /**
+     * 리스트.
+     */
     @RequestMapping(value = "/adUser")
-   	public String User(ModelMap modelMap){
-    	List<?> listview   = deptSvc.selectDepartment();
+       public String user(ModelMap modelMap) {
+        List<?> listview   = deptSvc.selectDepartment();
 
-    	TreeMaker tm = new TreeMaker();
-		String treeStr = tm.makeTreeByHierarchy(listview);
-		
-    	modelMap.addAttribute("treeStr", treeStr);
-    	
+        TreeMaker tm = new TreeMaker();
+        String treeStr = tm.makeTreeByHierarchy(listview);
+        
+        modelMap.addAttribute("treeStr", treeStr);
+        
         return "admin/organ/User";
     }
     
@@ -42,7 +44,7 @@ public class UserCtr {
      * User 리스트.
      */
     @RequestMapping(value = "/adUserList")
-    public String UserList(HttpServletRequest request, ModelMap modelMap) {
+    public String userList(HttpServletRequest request, ModelMap modelMap) {
         String deptno = request.getParameter("deptno");
 
         return common_UserList(modelMap, deptno);
@@ -62,20 +64,20 @@ public class UserCtr {
      * 신규 사용자는 저장 전에 중복 확인 
      */
     @RequestMapping(value = "/adUserSave")
-    public String UserSave(HttpServletResponse response, ModelMap modelMap, UserVO userInfo) {
+    public String userSave(HttpServletResponse response, ModelMap modelMap, UserVO userInfo) {
 
-    	if (userInfo.getUserno()==null || "".equals(userInfo.getUserno())) {
-	        String userid = userSvc.selectUserID(userInfo.getUserid());
-	        if (userid!=null) {
-	        	return "common/blank"; 
-	        }
-    	}
+        if (userInfo.getUserno() == null || "".equals(userInfo.getUserno())) {
+            String userid = userSvc.selectUserID(userInfo.getUserid());
+            if (userid != null) {
+                return "common/blank"; 
+            }
+        }
         FileUtil fs = new FileUtil();
         FileVO fileInfo = fs.saveFile(userInfo.getPhotofile());
-    	if (fileInfo !=null){
-    	    userInfo.setPhoto(fileInfo.getRealname());
-    	}
-    	userSvc.insertUser(userInfo);
+        if (fileInfo != null) {
+            userInfo.setPhoto(fileInfo.getRealname());
+        }
+        userSvc.insertUser(userInfo);
 
         return common_UserList(modelMap, userInfo.getDeptno());
     }
@@ -89,26 +91,27 @@ public class UserCtr {
 
         userid = userSvc.selectUserID(userid);
 
-        utiletc.responseJsonValue(response, userid);
+        UtilEtc.responseJsonValue(response, userid);
     }
     
     /**
      * 사용자 조회.
      */
     @RequestMapping(value = "/adUserRead")
-    public void UserRead(HttpServletRequest request, HttpServletResponse response) {
+    public void userRead(HttpServletRequest request, HttpServletResponse response) {
         String userno = request.getParameter("userno");
         
         UserVO userInfo = userSvc.selectUserOne(userno);
 
-        utiletc.responseJsonValue(response, userInfo);
+        UtilEtc.responseJsonValue(response, userInfo);
     }
+    
     /**
      * 사용자 삭제.
      */
     @RequestMapping(value = "/adUserDelete")
-    public String UserDelete(HttpServletRequest request, ModelMap modelMap, UserVO userInfo) {
-    	
+    public String userDelete(HttpServletRequest request, ModelMap modelMap, UserVO userInfo) {
+        
         userSvc.deleteUser(userInfo.getUserno());
         
         return common_UserList(modelMap, userInfo.getDeptno());

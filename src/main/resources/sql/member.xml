@@ -13,7 +13,7 @@
     <select id="selectSearchMemberList" parameterType="gu.common.SearchVO" resultType="gu.member.UserVO" >
         SELECT USERNO, USERID, USERNM, PHOTO, DEPTNM DEPTNO
           FROM COM_USER CU
-		 INNER JOIN COM_DEPT CD ON CD.DEPTNO=CU.DEPTNO
+         INNER JOIN COM_DEPT CD ON CD.DEPTNO=CU.DEPTNO
          WHERE CU.DELETEFLAG='N' AND CD.DELETEFLAG='N'
            AND CU.USERNM LIKE CONCAT('%', #{searchKeyword},'%')
          LIMIT ${rowStart-1}, 10

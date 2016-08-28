@@ -11,18 +11,18 @@ import gu.common.SearchVO;
 @Service
 public class MemberSvc {
 
-	@Autowired
-	private SqlSessionTemplate sqlSession;	
-		
-    public Integer selectSearchMemberCount(SearchVO param){
+    @Autowired
+    private SqlSessionTemplate sqlSession;    
+        
+    public Integer selectSearchMemberCount(SearchVO param) {
         return sqlSession.selectOne("selectSearchMemberCount", param);
     }
     
-    public List<?> selectSearchMemberList(SearchVO param){
-		return sqlSession.selectList("selectSearchMemberList", param);
+    public List<?> selectSearchMemberList(SearchVO param) {
+        return sqlSession.selectList("selectSearchMemberList", param);
     }
     
-    public UserVO selectMember4Login(LoginVO param){
+    public UserVO selectMember4Login(LoginVO param) {
         return sqlSession.selectOne("selectMember4Login", param);
     }
     

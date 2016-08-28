@@ -5,7 +5,7 @@
     <select id="selectBoardGroupList" resultType="gu.common.TreeVO" >
         SELECT BGNO 'KEY', BGNAME TITLE, BGPARENT PARENT
           FROM TBL_BOARDGROUP
-		 WHERE BGDELETEFLAG='N' 
+         WHERE BGDELETEFLAG='N' 
          ORDER BY BGNO  
     </select> 
     
@@ -13,18 +13,19 @@
         <selectKey resultType="String" keyProperty="bgno" order="BEFORE">
             SELECT IFNULL(MAX(BGNO),0)+1 FROM TBL_BOARDGROUP
         </selectKey>    
-    	INSERT INTO TBL_BOARDGROUP(BGNO, BGNAME, BGUSED, BGREPLY, BGREADONLY, BGPARENT, BGDELETEFLAG, BGDATE)
-		VALUES (#{bgno}, #{bgname}, #{bgused}, #{bgreply}, #{bgreadonly}, #{bgparent}, 'N', NOW() )
-	</insert>
-	
+        INSERT INTO TBL_BOARDGROUP(BGNO, BGNAME, BGUSED, BGREPLY, BGREADONLY, BGNOTICE, BGPARENT, BGDELETEFLAG, BGDATE)
+        VALUES (#{bgno}, #{bgname}, #{bgused}, #{bgreply}, #{bgreadonly}, #{bgnotice}, #{bgparent}, 'N', NOW() )
+    </insert>
+    
     <update id="updateBoardGroup" parameterType="gu.admin.board.BoardGroupVO">
         UPDATE TBL_BOARDGROUP
-           SET BGNAME=#{bgname}, BGUSED=#{bgused}, BGREPLY=#{bgreply}, BGREADONLY=#{bgreadonly}
+           SET BGNAME=#{bgname}, BGUSED=#{bgused}, BGREPLY=#{bgreply}
+             , BGREADONLY=#{bgreadonly}, BGNOTICE=#{bgnotice}
          WHERE BGNO=#{bgno}
     </update> 
-		
+        
     <select id="selectBoardGroupOne" parameterType="String" resultType="gu.admin.board.BoardGroupVO">
-        SELECT BGNO, BGNAME, BGUSED, BGREPLY, BGREADONLY
+        SELECT BGNO, BGNAME, BGUSED, BGREPLY, BGREADONLY, BGNOTICE
           FROM TBL_BOARDGROUP
          WHERE BGDELETEFLAG='N' AND BGNO=#{bgno} 
     </select> 

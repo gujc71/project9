@@ -56,7 +56,7 @@ function fn_formSubmit(){
                                     <input class="form-control" placeholder="ID" name="userid" id="userid" type="email" autofocus value="<c:out value="${userid}"/>">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="userpw" id="userpw" type="password" value="">
+                                    <input class="form-control" placeholder="Password" name="userpw" id="userpw" type="password" value="" onkeydown="if(event.keyCode == 13) { fn_formSubmit();}">
                                 </div>
                                 <div class="checkbox">
                                     <label>

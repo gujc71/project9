@@ -63,5 +63,12 @@
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" >
 		<property name="defaultLocale" value="ko" />
 	</bean>
-		    
+
+    <bean id="messageSourceAccessor" class="org.springframework.context.support.MessageSourceAccessor">
+        <constructor-arg ref="messageSource"/>
+    </bean>
+    <bean id="message" class="gu.common.LocaleMessage">
+        <property name="messageSourceAccessor" ref="messageSourceAccessor"/>
+    </bean>
+    		    
 </beans>

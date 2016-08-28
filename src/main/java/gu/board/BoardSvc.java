@@ -13,6 +13,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import gu.admin.board.BoardGroupVO;
+import gu.common.Field3VO;
 import gu.common.FileVO;
 
 @Service
@@ -24,14 +25,14 @@ public class BoardSvc {
     private DataSourceTransactionManager txManager;
         
     /** 
-     * 게시판 정보 (그룹)
+     * 게시판 정보 (그룹).
      */
-    public BoardGroupVO selectBoardGroupOne4Used(String param){
-		return sqlSession.selectOne("selectBoardGroupOne4Used", param);
+    public BoardGroupVO selectBoardGroupOne4Used(String param) {
+        return sqlSession.selectOne("selectBoardGroupOne4Used", param);
     }
     
     /** ------------------------------------------
-     * 게시판
+     * 게시판.
      */
     public Integer selectBoardCount(BoardSearchVO param) {
         return sqlSession.selectOne("selectBoardCount", param);
@@ -39,6 +40,10 @@ public class BoardSvc {
     
     public List<?> selectBoardList(BoardSearchVO param) {
         return sqlSession.selectList("selectBoardList", param);
+    }
+    
+    public List<?> selectNoticeList(BoardSearchVO param) {
+        return sqlSession.selectList("selectNoticeList", param);
     }
     
     /**
@@ -69,29 +74,45 @@ public class BoardSvc {
             txManager.commit(status);
         } catch (TransactionException ex) {
             txManager.rollback(status);
-            System.out.println("데이터 저장 오류: " + ex.toString());
+            System.out.println("데이터 저장 오류");
         }            
     }
  
-    public BoardVO selectBoardOne(String param) {
+    public BoardVO selectBoardOne(Field3VO param) {
         return sqlSession.selectOne("selectBoardOne", param);
     }
 
     /**
-     * 게시판 수정/삭제 권한 확인 
+     * 게시판 수정/삭제 권한 확인. 
      */
     public String selectBoardAuthChk(BoardVO param) {
         return sqlSession.selectOne("selectBoardAuthChk", param);
     }
     
-    public void updateBoardRead(String param) {
+    public void updateBoardRead(Field3VO param) {
         sqlSession.insert("updateBoardRead", param);
     }
     
     public void deleteBoardOne(String param) {
         sqlSession.delete("deleteBoardOne", param);
     }
-    
+
+    public void insertBoardLike(Field3VO param) {
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        TransactionStatus status = txManager.getTransaction(def);
+        
+        try {
+            sqlSession.insert("insertBoardLike", param);
+            sqlSession.update("updateBoard4Like", param);
+            
+            txManager.commit(status);
+        } catch (TransactionException ex) {
+            txManager.rollback(status);
+            System.out.println("데이터 저장 오류");
+        }            
+    }
+
     public List<?> selectBoardFileList(String param) {
         return sqlSession.selectList("selectBoardFileList", param);
     }
@@ -123,7 +144,7 @@ public class BoardSvc {
     }   
     
     /**
-     * 댓글 수정/삭제 권한 확인 
+     * 댓글 수정/삭제 권한 확인. 
      */
     public String selectBoardReplyAuthChk(BoardReplyVO param) {
         return sqlSession.selectOne("selectBoardReplyAuthChk", param);

@@ -25,20 +25,20 @@ public class PopUserCtr {
     
     // 부서리스트
     @RequestMapping(value = "/popupDept")
-   	public String popupDept(ModelMap modelMap){
-    	List<?> listview   = deptSvc.selectDepartment();
+       public String popupDept(ModelMap modelMap) {
+        List<?> listview   = deptSvc.selectDepartment();
 
-    	TreeMaker tm = new TreeMaker();
-		String treeStr = tm.makeTreeByHierarchy(listview);
-		
-    	modelMap.addAttribute("treeStr", treeStr);
-    	
+        TreeMaker tm = new TreeMaker();
+        String treeStr = tm.makeTreeByHierarchy(listview);
+        
+        modelMap.addAttribute("treeStr", treeStr);
+        
         return "etc/popupDept";
     }
 
     // 부서리스트 for 사용자
     @RequestMapping(value = "/popupUser")
-    public String popupUser(ModelMap modelMap){
+    public String popupUser(ModelMap modelMap) {
         List<?> listview   = deptSvc.selectDepartment();
 
         TreeMaker tm = new TreeMaker();
@@ -66,7 +66,7 @@ public class PopUserCtr {
     
     // 부서리스트 for 사용자들
     @RequestMapping(value = "/popupUsers")
-    public String popupUsers(ModelMap modelMap){
+    public String popupUsers(ModelMap modelMap) {
         popupUser(modelMap);
         
         return "etc/popupUsers";

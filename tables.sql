@@ -43,9 +43,11 @@ CREATE TABLE TBL_BOARD (
   USERNO 	INT,                    		-- 작성자
   BRDMEMO   MEDIUMTEXT,		                -- 글 내용
   BRDDATE   DATETIME,                       -- 작성일자
+  BRDNOTICE VARCHAR(1),                     -- 공지사항여부
   LASTDATE  DATETIME, 
-  LASTUSERNO  INT, 
-  BRDDELETEFLAG CHAR(1),                     -- 삭제 여부
+  LASTUSERNO  	INT, 
+  BRDLIKE 		INT default 0,             	-- 좋아요
+  BRDDELETEFLAG CHAR(1),                    -- 삭제 여부
   PRIMARY KEY (BRDNO)
 ) ;
 
@@ -58,6 +60,14 @@ CREATE TABLE TBL_BOARDFILE (
     REALNAME VARCHAR(30),                    -- 실제파일명
     FILESIZE INT,                            -- 파일 크기
     PRIMARY KEY (FILENO)
+);
+
+CREATE TABLE TBL_BOARDLIKE (
+    BLNO INT(11)  NOT NULL AUTO_INCREMENT,  -- 번호
+    BRDNO INT(11),                          -- 글번호
+	USERNO 	INT,                    		-- 작성자
+	BLDATE  DATETIME, 						-- 일자
+    PRIMARY KEY (BLNO)
 );
 
 -- DROP TABLE TBL_BOARDREPLY;
@@ -81,9 +91,9 @@ CREATE TABLE TBL_BOARDREPLY (
 -- DROP TABLE TBL_BOARDREAD;
 
 CREATE TABLE TBL_BOARDREAD (
-	BRDNO INT(11) NOT NULL,                  -- 게시물 번호
-	USERNO 	INT,          			     		-- 작성자
-	READDATE DATETIME,
+	BRDNO INT(11) NOT NULL,                 -- 게시물 번호
+	USERNO 	INT,          			     	-- 작성자
+	READDATE DATETIME,						-- 작성일자
 	PRIMARY KEY (BRDNO, USERNO)
 );
 
@@ -98,6 +108,7 @@ CREATE TABLE TBL_BOARDGROUP (
   BGUSED CHAR(1),                           -- 사용 여부
   BGREPLY CHAR(1),                          -- 댓글 사용여부
   BGREADONLY CHAR(1),                       -- 글쓰기 가능 여부
+  BGNOTICE CHAR(1),                       	-- 공지 쓰기  가능 여부
   BGDATE DATETIME,                          -- 생성일자
   PRIMARY KEY (BGNO)
 );

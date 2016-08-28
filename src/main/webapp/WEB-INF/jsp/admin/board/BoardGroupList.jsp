@@ -63,6 +63,7 @@ function receiveData(data){
 	$('input:radio[name="bgused"][value="' + data.bgused + '"]').prop('checked', true);
 	$('input:radio[name="bgreadonly"][value="' + data.bgreadonly + '"]').prop('checked', true);
 	$('input:radio[name="bgreply"][value="' + data.bgreply + '"]').prop('checked', true);
+	$('input:radio[name="bgnotice"][value="' + data.bgnotice + '"]').prop('checked', true);
 }
 
 function fn_groupNew(){
@@ -71,6 +72,7 @@ function fn_groupNew(){
 	$('input:radio[name="bgused"][value="Y"]').prop('checked', true);
 	$('input:radio[name="bgreadonly"][value="N"]').prop('checked', true);
 	$('input:radio[name="bgreply"][value="Y"]').prop('checked', true);
+	$('input:radio[name="bgnotice"][value="Y"]').prop('checked', true);
 }
 
 function fn_groupDelete(value){
@@ -115,7 +117,8 @@ function fn_groupSave(){
     	data: { bgno:$("#bgno").val(), bgname:$("#bgname").val(), bgparent: pid,
     			bgused : $("input:radio[name=bgused]:checked").val(), 
     			bgreadonly : $("input:radio[name=bgreadonly]:checked").val(), 
-    			bgreply : $("input:radio[name=bgreply]:checked").val()}    	
+    			bgreply : $("input:radio[name=bgreply]:checked").val(),
+    			bgnotice : $("input:radio[name=bgnotice]:checked").val()}    	
     }).done(receiveData4Save);
 }
 
@@ -194,6 +197,13 @@ function addNode(nodeNo, nodeTitle){
 			            	<div class="col-lg-9 checkbox-inline">
 							 	<label><input name="bgreply" id="bgreply" type="radio" checked="checked" value="Y"><s:message code="board.usedY"/></label>
 							 	<label><input name="bgreply" id="bgreply" type="radio" value="N"><s:message code="board.usedN"/></label>
+			            	</div>
+						</div>
+			            <div class="row form-group">
+			            	<label class="col-lg-3" ><s:message code="common.notice"/></label>
+			            	<div class="col-lg-9 checkbox-inline">
+							 	<label><input name="bgnotice" id="bgnotice" type="radio" checked="checked" value="Y"><s:message code="board.usedY"/></label>
+							 	<label><input name="bgnotice" id="bgnotice" type="radio" value="N"><s:message code="board.usedN"/></label>
 			            	</div>
 						</div>
 
