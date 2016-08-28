@@ -10,12 +10,13 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtil {
-    final String filePath = "d:\\workspace\\fileupload\\"; 
+    String filePath = LocaleMessage.getMessage("info.filePath");
+    
     /**
      * 파일 업로드.
      */
     public FileVO saveFile(MultipartFile uploadfile) {
-        if (uploadfile==null || uploadfile.getSize() == 0) {
+        if (uploadfile == null || uploadfile.getSize()  ==  0) {
            return null;
         }
             
@@ -38,7 +39,7 @@ public class FileUtil {
         List<FileVO> filelist = new ArrayList<FileVO>();
 
         for (MultipartFile uploadfile : upfiles ) {
-            if (uploadfile.getSize() == 0) {
+            if (uploadfile.getSize()  ==  0) {
                 continue;
             }
             
@@ -54,6 +55,7 @@ public class FileUtil {
         }
         return filelist;
     }     
+    
     /**
      * 파일 저장 경로 생성.
      */
@@ -67,8 +69,8 @@ public class FileUtil {
     /**
      * 실제 파일 저장.
      */
-    public String saveFile(MultipartFile file, String basePath, String fileName){
-        if (file == null || file.getName().equals("") || file.getSize() < 1) {
+    public String saveFile(MultipartFile file, String basePath, String fileName) {
+        if (file  ==  null || file.getName().equals("") || file.getSize() < 1) {
             return null;
         }
      
@@ -78,8 +80,6 @@ public class FileUtil {
         File file1 = new File(serverFullPath);
         try {
             file.transferTo(file1);
-        } catch (IllegalStateException ex) {
-            System.out.println("IllegalStateException: saveFile");
         } catch (IOException ex) {
             System.out.println("IOException: saveFile");
         }

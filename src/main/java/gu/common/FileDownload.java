@@ -22,7 +22,7 @@ public class FileDownload {
      */
     @RequestMapping(value = "fileDownload")
     public void fileDownload(HttpServletRequest request,HttpServletResponse response) {
-        String path = "d:\\workspace\\fileupload\\"; 
+        String path = LocaleMessage.getMessage("info.filePath") + "/";
         
         String filename = request.getParameter("filename");
         String downname = request.getParameter("downname");

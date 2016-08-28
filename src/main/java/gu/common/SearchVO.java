@@ -28,13 +28,13 @@ public class SearchVO extends PageVO  {
         return searchType.split(",");
     }
 
-	public String getSearchExt1() {
-		return searchExt1;
-	}
+    public String getSearchExt1() {
+        return searchExt1;
+    }
 
-	public void setSearchExt1(String searchExt1) {
-		this.searchExt1 = searchExt1;
-	}
+    public void setSearchExt1(String searchExt1) {
+        this.searchExt1 = searchExt1;
+    }
     
 }
  
