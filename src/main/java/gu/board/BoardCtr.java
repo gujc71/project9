@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,6 +32,8 @@ public class BoardCtr {
     @Autowired
     private BoardGroupSvc boardGroupSvc;
     
+    static final Logger LOGGER = LoggerFactory.getLogger(BoardCtr.class);
+    
     /**
      * 리스트.
      */
@@ -44,10 +48,10 @@ public class BoardCtr {
             modelMap.addAttribute("bgInfo", bgInfo);
         }
         
-        searchVO.pageCalculate( boardSvc.selectBoardCount(searchVO) ); // startRow, endRow
-
-        List<?> listview  = boardSvc.selectBoardList(searchVO);
         List<?> noticelist  = boardSvc.selectNoticeList(searchVO);
+
+        searchVO.pageCalculate( boardSvc.selectBoardCount(searchVO) ); // startRow, endRow
+        List<?> listview  = boardSvc.selectBoardList(searchVO);
         
         modelMap.addAttribute("searchVO", searchVO);
         modelMap.addAttribute("listview", listview);
@@ -162,6 +166,9 @@ public class BoardCtr {
         return "redirect:/boardList?bgno=" + bgno;
     }
 
+    /**
+     * 게시판 트리. Ajax용.     
+     */
     @RequestMapping(value = "/boardListByAjax")
        public void boardListByAjax(HttpServletResponse response, ModelMap modelMap) {
         List<?> listview   = boardGroupSvc.selectBoardGroupList();
@@ -173,12 +180,15 @@ public class BoardCtr {
         try {
             response.getWriter().print(treeStr);
         } catch (IOException ex) {
-            System.out.println("boardListByAjax");
+            LOGGER.error("boardListByAjax");
         }
         
     }
     
     /*===================================================================== */
+    /**
+     * 좋아요 저장.     
+     */
     @RequestMapping(value = "/addBoardLike")
     public void addBoardLike(HttpServletRequest request, HttpServletResponse response) {
         String brdno = request.getParameter("brdno");

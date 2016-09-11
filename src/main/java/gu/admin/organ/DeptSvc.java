@@ -16,6 +16,9 @@ public class DeptSvc {
         return sqlSession.selectList("selectDepartment");
     }
     
+    /**
+     * 부서저장.     
+     */
     public void insertDepartment(DepartmentVO param) {
         if ("".equals(param.getParentno())) {
             param.setParentno(null); 

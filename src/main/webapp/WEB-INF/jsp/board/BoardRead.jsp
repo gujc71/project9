@@ -152,7 +152,7 @@ function fn_replyReplySave(){
 			if (result!=="") {
 				var parent = $("#reparent3").val();
 				$("#replyItem"+parent).after(result);
-				$("#replyDialog").hide();
+				hideDiv("#replyDialog");
 				alert("<s:message code="msg.boardSave"/>");
 				$("#rememo3").val("");
 			} else{
@@ -244,13 +244,13 @@ function fn_addBoardLike(brdno){
 							<div class="panel panel-default" id="replyItem<c:out value="${replylist.reno}"/>" style="margin-left: <c:out value="${20*replylist.redepth}"/>px;">
 			                	<div class="panel-body">
 			                   		<div class="pull-left photoOutline">
-										<a href="" class="photoLink">
+										<a href="" class="img-circle">
 											<c:choose>
 											    <c:when test="${replylist.photo==null}">
-													<i class="glyphicon glyphicon-user" style="font-size: 29pt; color:#337ab7"></i>
+													<i class="glyphicon glyphicon-user noPhoto"></i>
 											    </c:when>
 											    <c:otherwise>
-											    	<img src="fileDownload?downname=<c:out value="${replylist.photo}"/>" title="<c:out value="${replylist.rewriter}"/>"/>
+											    	<img class="img-circle" src="fileDownload?downname=<c:out value="${replylist.photo}"/>" title="<c:out value="${replylist.rewriter}"/>"/>
 											    </c:otherwise>
 											</c:choose>
 										</a>

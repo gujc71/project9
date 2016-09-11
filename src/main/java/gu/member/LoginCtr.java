@@ -36,7 +36,7 @@ public class LoginCtr {
      * 로그인 처리.
      */
     @RequestMapping(value = "memberLoginChk")
-    public String memberLoginChk(HttpServletRequest request,HttpServletResponse response, LoginVO loginInfo, ModelMap modelMap) throws Exception {
+    public String memberLoginChk(HttpServletRequest request,HttpServletResponse response, LoginVO loginInfo, ModelMap modelMap) {
 
         UserVO mdo = memberSvc.selectMember4Login(loginInfo);
         
@@ -65,7 +65,7 @@ public class LoginCtr {
      * 로그아웃.
      */
     @RequestMapping(value = "memberLogout")
-    public String memberLogout(HttpServletRequest request, ModelMap modelMap) throws Exception {
+    public String memberLogout(HttpServletRequest request, ModelMap modelMap) {
         HttpSession session = request.getSession();
         
         session.removeAttribute("userid");
@@ -87,6 +87,9 @@ public class LoginCtr {
     /*
      * -------------------------------------------------------------------------
      */
+    /**
+     * 쿠키 저장.     
+     */
     public static void set_cookie(String cid, String value, HttpServletResponse res) {
 
         Cookie ck = new Cookie(cid, value);
@@ -95,6 +98,9 @@ public class LoginCtr {
         res.addCookie(ck);        
     }
 
+    /**
+     * 쿠키 가져오기.     
+     */
     public static String get_cookie(String cid, HttpServletRequest request) {
         String ret = "";
 

@@ -3,6 +3,31 @@
 
 <mapper namespace="main">
 
+    <select id="selectAlertCount" parameterType="String" resultType="Integer">
+        SELECT (
+                    SELECT COUNT(distinct TB.BRDNO, TBL.BLNO) CNT
+                      FROM TBL_BOARD TB
+                      LEFT OUTER JOIN TBL_BOARDREAD TBR ON TBR.BRDNO=TB.BRDNO AND TBR.USERNO=#{userno}
+                     INNER JOIN TBL_BOARDLIKE TBL ON TBL.BRDNO=TB.BRDNO
+                     WHERE BRDDELETEFLAG='N' AND TB.USERNO=#{userno}
+                       AND TBL.BLDATE > IF(TB.BRDDATE>IFNULL(TBR.READDATE,0), TB.BRDDATE, TBR.READDATE)
+                ) + (
+                    SELECT COUNT(distinct TB.BRDNO, TBRE.RENO) CNT
+                      FROM TBL_BOARD TB
+                      LEFT OUTER JOIN TBL_BOARDREAD TBR ON TBR.BRDNO=TB.BRDNO AND TBR.USERNO=#{userno}
+                     INNER JOIN TBL_BOARDREPLY TBRE ON TBRE.BRDNO=TB.BRDNO
+                     WHERE BRDDELETEFLAG='N' AND TB.USERNO=#{userno}
+                       AND TBRE.REDATE > IF(TB.BRDDATE>IFNULL(TBR.READDATE,0), TB.BRDDATE, TBR.READDATE)
+                ) + (
+                    SELECT COUNT(distinct TBR.BRDNO, TBRE.RENO) CNT
+                      FROM TBL_BOARDREPLY TBR
+                     INNER JOIN TBL_BOARDREAD TBRR ON TBR.BRDNO=TBRR.BRDNO
+                     INNER JOIN TBL_BOARDREPLY TBRE ON TBRE.BRDNO=TBR.BRDNO
+                     WHERE TBR.REDELETEFLAG='N' AND TBR.USERNO=#{userno} AND TBRR.USERNO=#{userno}
+                       AND TBRE.REDATE > TBRR.READDATE 
+                ) CNT
+    </select>
+        
     <select id="selectRecentNews" resultType="gu.board.BoardVO">
         SELECT BRDNO, BRDTITLE, DATE_FORMAT(BRDDATE,'%Y-%m-%d') BRDDATE
              , TB.USERNO, USERNM BRDWRITER, BGNAME, TB.BGNO
@@ -15,17 +40,18 @@
          LIMIT 15
     </select> 
     
-    <select id="selectTimeLine" parameterType="String" resultType="gu.board.BoardVO" >
-        SELECT TB.BRDNO, LEFT(TB.BRDTITLE, 10) BRDTITLE, UF_DATETIME2STRING(REDATE) BRDDATE
+    <select id="selectTimeLine" resultType="gu.board.BoardReplyVO" >
+        SELECT TB.BRDNO, LEFT(TB.BRDTITLE, 10) REMEMO, USERNM REWRITER, PHOTO
+             , UF_DATETIME2STRING(REDATE) REDATE
           FROM TBL_BOARD TB
          INNER JOIN TBL_BOARDREPLY TBR ON TBR.BRDNO=TB.BRDNO
-         WHERE TB.USERNO=#{userno} 
-           AND BRDDELETEFLAG='N' AND REDELETEFLAG='N'
-         ORDER BY REDATE DESC
+         INNER JOIN COM_USER CU ON TBR.USERNO=CU.USERNO
+         WHERE BRDDELETEFLAG='N' AND REDELETEFLAG='N'
+         ORDER BY TBR.REDATE DESC
          LIMIT 20
     </select>
     
-    <select id="selectNoticeListTop5" resultType="gu.board.BoardVO" parameterType="gu.board.BoardSearchVO">
+    <select id="selectNoticeListTop5" parameterType="gu.board.BoardSearchVO" resultType="gu.board.BoardVO">
         SELECT BRDNO, BRDTITLE, DATE_FORMAT(BRDDATE,'%Y-%m-%d') BRDDATE, BRDNOTICE
              , TB.USERNO, USERNM BRDWRITER
           FROM TBL_BOARD TB

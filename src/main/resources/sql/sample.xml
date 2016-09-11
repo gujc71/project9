@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="sample">
+
+    <select id="selectBoardGroupCount4Statistic" resultType="gu.common.CountVO" >
+        SELECT BGNAME FIELD1, CNT CNT1
+          FROM (
+                SELECT BGNO, COUNT(*) CNT
+                  FROM TBL_BOARD TB
+                 WHERE BRDDELETEFLAG='N' 
+                 GROUP BY BGNO
+        ) DS
+        INNER JOIN TBL_BOARDGROUP TBG
+        WHERE TBG.BGNO=DS.BGNO AND BGDELETEFLAG='N' 
+    </select> 
+</mapper>
+

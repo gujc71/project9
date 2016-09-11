@@ -5,8 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TreeMaker {
+    static final Logger LOGGER = LoggerFactory.getLogger(AdminInterceptor.class);
+
+    /**
+     * 부모코드를 이용하여 계층형 트리 구성.     
+     */
     public String makeTreeByHierarchy(List<?> listview) {
         List<TreeVO> rootlist = new ArrayList<TreeVO>();
         
@@ -36,7 +43,7 @@ public class TreeMaker {
         try {
             str = mapper.writeValueAsString(rootlist);
         } catch (IOException ex) {
-            System.out.println("TreeMaker");
+            LOGGER.error("TreeMaker");
         }
         return str;
     }

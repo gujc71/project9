@@ -4,94 +4,60 @@
 
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
+                <a class="navbar-brand" href="index"><s:message code="common.projectTitle"/></a>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index"><s:message code="common.projectTitle"/></a>
+
+	            <ul class="nav navbar-top-links navbar-right">
+	                <!-- /.dropdown -->
+	                <li class="dropdown">
+	                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="showAlertList()">
+	                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+	                        <c:if test="${alertcount>0}">
+	                        	<div class="msgAlert"><c:out value="${alertcount}"/></div>
+	                        </c:if>
+	                    </a>
+	                    <script>
+	                    	function showAlertList(){
+	                    		$.ajax({
+	                    			url: "alertList4Ajax", 
+	                    			dataType: "html",
+	                    			type:"post", 
+	                    			success: function(result){
+	                    				if (result!=="") {
+	                    					$("#alertlist").html(result);
+	                    				}
+	                    			}
+	                    		})		                    		
+	                    	}
+	                    </script>
+	                    <ul id="alertlist" class="dropdown-menu dropdown-alerts">
+	                    </ul>
+	                    <!-- /.dropdown-alerts -->
+	                </li>
+	                <!-- /.dropdown -->
+	                <li class="dropdown">
+	                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+	                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+	                    </a>
+	                    <ul class="dropdown-menu dropdown-user">
+	                        <li><a href="memberForm"><i class="fa fa-user fa-fw"></i> <c:out value="${sessionScope.usernm}"/></a></li>
+	                        <li><a href="searchMember"><i class="fa fa-users fa-fw"></i> <s:message code="memu.users"/></a></li>
+	                        <li class="divider"></li>
+	                        <li><a href="memberLogout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+	                        </li>
+	                    </ul>
+	                    <!-- /.dropdown-user -->
+	                </li>
+	                <!-- /.dropdown -->
+	            </ul>
+	            <!-- /.navbar-top-links -->
             </div>
             <!-- /.navbar-header -->
-
-            <ul class="nav navbar-top-links navbar-right">
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small">12 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>See All Alerts</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-alerts -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="memberForm"><i class="fa fa-user fa-fw"></i> <s:message code="memu.profile"/></a></li>
-                        <li><a href="searchMember"><i class="fa fa-users fa-fw"></i> <s:message code="memu.users"/></a></li>
-                        <li class="divider"></li>
-                        <li><a href="memberLogout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-            <!-- /.navbar-top-links -->
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
@@ -120,10 +86,13 @@
                             <a href="boardList"><i class="fa fa-files-o fa-fw"></i> <s:message code="board.boardName"/></a>
                         </li>
                         <li>
-                            <a href="sample1"><i class="fa fa-music fa-fw"></i> 샘플 1</a>
+                            <a href="sample1"><i class="fa fa-music fa-fw"></i> 샘플 1: 조직도/사용자</a>
                         </li>
                         <li>
-                            <a href="sample2"><i class="fa fa-music fa-fw"></i> 샘플 2</a>
+                            <a href="sample2"><i class="fa fa-music fa-fw"></i> 샘플 2: 날짜 선택 </a>
+                        </li>
+                        <li>
+                            <a href="sample3"><i class="fa fa-music fa-fw"></i> 샘플 3: 챠트</a>
                         </li>
                         <c:if test='${sessionScope.userrole == "A"}'>
 	                        <li>

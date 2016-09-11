@@ -153,17 +153,17 @@ function TreenodeActivate(node) {
 				    
 						<div class="form-group">
 							<div class="checkbox col-lg-3 pull-left">
-							 	<!-- label>
-		                        	<input type="checkbox" name="searchType" value="brdwriter" <c:if test="${fn:indexOf(searchVO.searchType, 'brdwriter')!=-1}">checked="checked"</c:if>/>
-		                        	<s:message code="board.writer"/>
-		                        </label -->
+							 	<label class="pull-right">
+		                        	<input type="checkbox" name="searchType" value="brdmemo" <c:if test="${fn:indexOf(searchVO.searchType, 'brdmemo')!=-1}">checked="checked"</c:if>/>
+		                        	<s:message code="board.contents"/>
+		                        </label>
 							 	<label class="pull-right">
 		                        	<input type="checkbox" name="searchType" value="brdtitle" <c:if test="${fn:indexOf(searchVO.searchType, 'brdtitle')!=-1}">checked="checked"</c:if>/>
 		                        	<s:message code="board.title"/>
 		                        </label>
 							 	<label class="pull-right">
-		                        	<input type="checkbox" name="searchType" value="brdmemo" <c:if test="${fn:indexOf(searchVO.searchType, 'brdmemo')!=-1}">checked="checked"</c:if>/>
-		                        	<s:message code="board.contents"/>
+							 		<input type="checkbox" name="searchType" value="usernm" <c:if test="${fn:indexOf(searchVO.searchType, 'usernm')!=-1}">checked="checked"</c:if>/>
+		                        	<s:message code="board.writer"/>
 		                        </label>
 		                   </div>
 		                   <div class="input-group custom-search-form col-lg-3">

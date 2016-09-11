@@ -33,7 +33,7 @@
 
 <script>
 window.onload =function() {
-	  CKEDITOR.replace( 'brdmemo', { 'filebrowserUploadUrl': 'AAA.PHP'});
+	  CKEDITOR.replace( 'brdmemo', { 'filebrowserUploadUrl': 'upload4ckeditor'});
 }	  
 
 function fn_formSubmit(){

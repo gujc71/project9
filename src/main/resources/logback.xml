@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--  
-http://devofhwb.tistory.com/81
-jdbc.sqlonly    : Logs only SQL
-jdbc.sqltiming  : Logs the SQL, post-execution, including timing execution statistics
-jdbc.audit      : Logs ALL JDBC calls except for ResultSets
-jdbc.resultset  : all calls to ResultSet objects are logged
-jdbc.connection : Logs connection open and close events
--->
-<configuration>
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <!-- By default, encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
-    <encoder>
-      <pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-3level %logger{5} - %msg %n</pattern>
-    </encoder>
-  </appender>
-  
-  <logger name="jdbc" level="OFF"/>
-  
-  <logger name="jdbc.sqlonly" level="DEBUG" additivity="false">>
-    <appender-ref ref="STDOUT" />
-  </logger>  
-  
-  <logger name="jdbc.resultsettable" level="DEBUG" additivity="false">> 
-    <appender-ref ref="STDOUT" />
-  </logger>  
-  
-  <root level="INFO">
-    <appender-ref ref="STDOUT" />
-  </root>
-  
+
+<configuration scan="true" scanPeriod="30 seconds">
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern> %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/project9.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/project9.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+ 
+    <logger name="org.springframework" level="info"/>
+    <logger name="org.springframework.security" level="info" />
+    
+    <logger name="java.sql" level="error" />
+    <logger name="jdbc.sqlonly" level="debug" />
+    <logger name="jdbc.sqltiming" level="debug" />
+    <logger name="jdbc.audit" level="error" />
+    <logger name="jdbc.resultset" level="error" />
+
+     <root level="debug">
+         <appender-ref ref="console"/>
+         <appender-ref ref="FILE"/>
+     </root>
+     
 </configuration>

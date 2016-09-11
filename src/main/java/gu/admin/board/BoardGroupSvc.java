@@ -16,6 +16,9 @@ public class BoardGroupSvc {
         return sqlSession.selectList("selectBoardGroupList");
     }
     
+    /**
+     * 게시판 저장.
+     */
     public void insertBoard(BoardGroupVO param) {
         if ("".equals(param.getBgparent())) {
             param.setBgparent(null);

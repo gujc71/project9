@@ -6,17 +6,25 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-@SuppressWarnings("static-access")
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Util4calen {
-    final static String[] dayArr = {"일", "월", "화", "수", "목", "금", "토"};
+    static final Logger LOGGER = LoggerFactory.getLogger(AdminInterceptor.class);
+    static final String[] dayArr = {"일", "월", "화", "수", "목", "금", "토"};
     
+    /**
+     * 시스템의 오늘 일자 반. 
+     */
     public static Date getToday() {
         Calendar cal = Calendar.getInstance(); 
         cal.setTime( new Date() );
         return cal.getTime();
     }    
 
+    /**
+     * 문자열을 날짜형으로 변환.
+     */
     public static Date getToday(String date) {
         Calendar cal = Calendar.getInstance(); 
         cal.setTime( str2Date(date) );
@@ -32,7 +40,7 @@ public class Util4calen {
     }
     
     /**
-     *  문자열을 날짜로 변환.
+     *  문자열을 날짜(yyyy-MM-dd)로 변환.
      */
     public static Date str2Date(String date) {
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
@@ -40,7 +48,7 @@ public class Util4calen {
         try {
             ret = ft.parse( date ) ;
         } catch (ParseException ex) {
-            System.out.println("date parse error ");
+            LOGGER.error("date parse error ");
         }
         return ret ;
     }
@@ -60,6 +68,9 @@ public class Util4calen {
         return dvo;    
     }
     
+    /**
+     * 년도 추출.
+     */
     public static Integer getYear(Date date) {
         Calendar cal = Calendar.getInstance(); 
         cal.setTime( date );
@@ -67,6 +78,9 @@ public class Util4calen {
         return cal.get(Calendar.YEAR);
     }
     
+    /**
+     * 월 추출.
+     */
     public static Integer getMonth(Date date) {
         Calendar cal = Calendar.getInstance(); 
         cal.setTime( date );
@@ -74,12 +88,20 @@ public class Util4calen {
         return cal.get(Calendar.MONTH) + 1;
     }
 
+    /**
+     * 한 주의 순서 (요일).
+     * 예: 일요일 = 0
+     */
     public static Integer getDayOfWeek(Date date) {
         Calendar cal = Calendar.getInstance(); 
         cal.setTime( date );
         return cal.get(Calendar.DAY_OF_WEEK) - 1;    
     }
     
+    /**
+     * 월의 몇 번째 주 인지 추출.
+     * 예: 반환값이 4이면 (7월) 4번째 주
+     */
     public static Integer getWeekOfMonth(Date date) {
         Calendar cal = Calendar.getInstance(); 
         cal.setTime( date );

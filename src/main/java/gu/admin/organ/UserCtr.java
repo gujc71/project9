@@ -50,6 +50,9 @@ public class UserCtr {
         return common_UserList(modelMap, deptno);
     }
     
+    /**
+     * 지정된 부서의 사용자 리스트.     
+     */
     public String common_UserList(ModelMap modelMap, String deptno) {
 
         List<?> listview  = userSvc.selectUserList(deptno);

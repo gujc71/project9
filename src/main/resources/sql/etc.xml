@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="etc">
+
+    <select id="selectAlertList4Ajax" parameterType="String" resultType="gu.board.BoardVO">
+        SELECT DS.BRDNO, DS.RENO, UF_DATETIME2STRING(DS.BRDDATE) BRDDATE, DS.TYPE AS extfield1
+             , TB.BRDTITLE
+          FROM (
+                SELECT DISTINCT TB.BRDNO, TBL.BLNO RENO, TBL.BLDATE BRDDATE, TBL.USERNO, 'thumbs-o-up' as TYPE
+                  FROM TBL_BOARD TB
+                  LEFT OUTER JOIN TBL_BOARDREAD TBR ON TBR.BRDNO=TB.BRDNO AND TBR.USERNO=#{userno}
+                 INNER JOIN TBL_BOARDLIKE TBL ON TBL.BRDNO=TB.BRDNO
+                 WHERE BRDDELETEFLAG='N' AND TB.USERNO=#{userno}
+                   AND TBL.BLDATE > IF(TB.BRDDATE>IFNULL(TBR.READDATE,0), TB.BRDDATE, TBR.READDATE)
+                UNION ALL
+                SELECT DISTINCT TB.BRDNO, TBRE.RENO, TBRE.REDATE BRDDATE, TBRE.USERNO, 'files-o' as TYPE
+                  FROM TBL_BOARD TB
+                  LEFT OUTER JOIN TBL_BOARDREAD TBR ON TBR.BRDNO=TB.BRDNO AND TBR.USERNO=#{userno}
+                 INNER JOIN TBL_BOARDREPLY TBRE ON TBRE.BRDNO=TB.BRDNO
+                 WHERE BRDDELETEFLAG='N' AND TB.USERNO=#{userno}
+                   AND TBRE.REDATE > IF(TB.BRDDATE>IFNULL(TBR.READDATE,0), TB.BRDDATE, TBR.READDATE)
+                UNION ALL
+                SELECT DISTINCT TBR.BRDNO, TBRE.RENO, TBRE.REDATE BRDDATE, TBRE.USERNO, 'comments' as TYPE
+                  FROM TBL_BOARDREPLY TBR
+                 INNER JOIN TBL_BOARDREAD TBRR ON TBR.BRDNO=TBRR.BRDNO
+                 INNER JOIN TBL_BOARDREPLY TBRE ON TBRE.BRDNO=TBR.BRDNO
+                 WHERE TBR.REDELETEFLAG='N' AND TBR.USERNO=#{userno} AND TBRR.USERNO=#{userno}
+                   AND TBRE.REDATE > TBRR.READDATE 
+                 ORDER BY BRDDATE DESC
+                 LIMIT 5
+        ) DS
+         INNER JOIN TBL_BOARD TB ON DS.BRDNO=TB.BRDNO
+         ORDER BY DS.BRDDATE DESC
+     </select>
+     
+    <select id="selectAlertList" parameterType="String" resultType="gu.board.BoardVO">
+        SELECT DS.BRDNO, DS.RENO, DATE_FORMAT(DS.BRDDATE,'%Y-%m-%d %h:%m') BRDDATE, DS.USERNO, DS.TYPE AS extfield1
+             , TB.BRDTITLE, TB.BRDLIKE, USERNM BRDWRITER
+             , (SELECT COUNT(*) FROM TBL_BOARDREAD WHERE BRDNO=TB.BRDNO) BRDHIT
+             , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
+             
+          FROM (
+                SELECT DISTINCT TB.BRDNO, TBL.BLNO RENO, TBL.BLDATE BRDDATE, TBL.USERNO, 'thumbs-o-up' as TYPE
+                  FROM TBL_BOARD TB
+                  LEFT OUTER JOIN TBL_BOARDREAD TBR ON TBR.BRDNO=TB.BRDNO AND TBR.USERNO=#{userno}
+                 INNER JOIN TBL_BOARDLIKE TBL ON TBL.BRDNO=TB.BRDNO
+                 WHERE BRDDELETEFLAG='N' AND TB.USERNO=#{userno}
+                   AND TBL.BLDATE > IF(TB.BRDDATE>IFNULL(TBR.READDATE,0), TB.BRDDATE, TBR.READDATE)
+                UNION ALL
+                SELECT DISTINCT TB.BRDNO, TBRE.RENO, TBRE.REDATE BRDDATE, TBRE.USERNO, 'files-o' as TYPE
+                  FROM TBL_BOARD TB
+                  LEFT OUTER JOIN TBL_BOARDREAD TBR ON TBR.BRDNO=TB.BRDNO AND TBR.USERNO=#{userno}
+                 INNER JOIN TBL_BOARDREPLY TBRE ON TBRE.BRDNO=TB.BRDNO
+                 WHERE BRDDELETEFLAG='N' AND TB.USERNO=#{userno}
+                   AND TBRE.REDATE > IF(TB.BRDDATE>IFNULL(TBR.READDATE,0), TB.BRDDATE, TBR.READDATE)
+                UNION ALL
+                SELECT DISTINCT TBR.BRDNO, TBRE.RENO, TBRE.REDATE BRDDATE, TBRE.USERNO, 'comments' as TYPE
+                  FROM TBL_BOARDREPLY TBR
+                 INNER JOIN TBL_BOARDREAD TBRR ON TBR.BRDNO=TBRR.BRDNO
+                 INNER JOIN TBL_BOARDREPLY TBRE ON TBRE.BRDNO=TBR.BRDNO
+                 WHERE TBR.REDELETEFLAG='N' AND TBR.USERNO=#{userno} AND TBRR.USERNO=#{userno}
+                   AND TBRE.REDATE > TBRR.READDATE 
+                 ORDER BY BRDDATE DESC
+        ) DS
+         INNER JOIN TBL_BOARD TB ON DS.BRDNO=TB.BRDNO
+         INNER JOIN COM_USER CU ON CU.USERNO=DS.USERNO
+         ORDER BY DS.BRDDATE DESC
+     </select>
+        
+     
+</mapper>
+

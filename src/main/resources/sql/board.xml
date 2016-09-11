@@ -15,13 +15,10 @@
         <if test="bgno!=null and bgno!=''">
             AND TB.BGNO=#{bgno}
         </if>  
-        <if test="searchExt1!=null and searchExt1!=''">
-            AND TB.USERNO=#{searchExt1}
-        </if>  
         <if test="searchKeyword!=null and searchKeyword!='' and searchType!=''">
-              <foreach item="item" index="index" collection="searchTypeArr" separator=" OR " open="AND (" close=")">
-                     ${item} LIKE CONCAT('%', #{searchKeyword},'%' )
-              </foreach>
+            <foreach item="item" index="index" collection="searchTypeArr" separator=" OR " open="AND (" close=")">
+                 ${item} LIKE CONCAT('%', #{searchKeyword},'%' )
+            </foreach>
         </if>               
     </sql>
 
@@ -29,6 +26,7 @@
         SELECT COUNT(*)
           FROM TBL_BOARD TB
          INNER JOIN TBL_BOARDGROUP TBG ON TBG.BGNO=TB.BGNO
+         INNER JOIN COM_USER CU ON TB.USERNO=CU.USERNO
          <include refid="includeBoard"/>
     </select> 
     
@@ -102,10 +100,9 @@
     </select> 
 
     <update id="updateBoardRead" parameterType="gu.common.Field3VO"> 
-        INSERT INTO TBL_BOARDREAD(BRDNO, USERNO, READDATE) 
-                 SELECT #{field1}, #{field2}, NOW()
-                   FROM DUAL
-                  WHERE NOT EXISTS(SELECT 1 FROM TBL_BOARDREAD WHERE BRDNO=#{field1} AND USERNO=#{field2})
+        INSERT INTO TBL_BOARDREAD(BRDNO, USERNO, READDATE)
+                 VALUES (#{field1}, #{field2}, NOW())
+                     ON DUPLICATE KEY UPDATE READDATE=NOW();
     </update> 
 
     <insert id="insertBoardLike" parameterType="gu.common.Field3VO"> 

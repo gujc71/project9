@@ -4,11 +4,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 public class AdminInterceptor implements HandlerInterceptor {
+    static final Logger LOGGER = LoggerFactory.getLogger(AdminInterceptor.class);
     
+    /**
+     * 관리자 페이지는 관리자만 접근 허용.     
+     */
     public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) {
         HttpSession session = req.getSession();
         
@@ -22,7 +28,7 @@ public class AdminInterceptor implements HandlerInterceptor {
                 return false;
             }
         } catch (Exception ex) {
-            System.out.println("AdminInterceptor");
+            LOGGER.error("AdminInterceptor");
         }
         
         return true;

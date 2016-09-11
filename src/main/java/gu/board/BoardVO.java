@@ -12,7 +12,7 @@ public class BoardVO {
     private String brdwriter; 
     private String brdmemo; 
     private String brddate; 
-    private String brdhit; 
+    private String brdhit;  
     private String brddeleteflag; 
     private String filecnt;
     private String replycnt;
@@ -20,11 +20,12 @@ public class BoardVO {
     private String brdnotice;
     private String brdlike;
     private String brdlikechk;          // like button click check
+    private String extfield1;           // etc
     
     /* 첨부파일 */
     private List<MultipartFile> uploadfile;
 
-    public String getBgno() {
+    public String getBgno() { 
         return bgno;
     }
 
@@ -150,6 +151,14 @@ public class BoardVO {
 
     public void setBrdlikechk(String brdlikechk) {
         this.brdlikechk = brdlikechk;
+    }
+
+    public String getExtfield1() {
+        return extfield1;
+    }
+
+    public void setExtfield1(String extfield1) {
+        this.extfield1 = extfield1;
     }
     
 }

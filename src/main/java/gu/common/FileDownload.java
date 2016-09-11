@@ -11,11 +11,14 @@ import java.net.URLEncoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class FileDownload {
+    static final Logger LOGGER = LoggerFactory.getLogger(FileDownload.class);
 
     /**
      * 파일(첨부파일, 이미지등) 다운로드.
@@ -35,7 +38,7 @@ public class FileDownload {
         try {
             filename = URLEncoder.encode(filename, "UTF-8");
         } catch (UnsupportedEncodingException ex) {
-            System.out.println("UnsupportedEncodingException");
+            LOGGER.error("UnsupportedEncodingException");
         }
         
         realPath = path + downname.substring(0,4) + "/" + downname;
@@ -60,9 +63,9 @@ public class FileDownload {
             fis.close();
             os.close();
         } catch (FileNotFoundException ex) {
-            System.out.println("FileNotFoundException");
+            LOGGER.error("FileNotFoundException");
         } catch (IOException ex) {
-            System.out.println("IOException");
+            LOGGER.error("IOException");
         }
     }
     

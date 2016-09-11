@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,9 @@ public class BoardSvc {
     private SqlSessionTemplate sqlSession;    
     @Autowired
     private DataSourceTransactionManager txManager;
-        
+
+    static final Logger LOGGER = LoggerFactory.getLogger(BoardSvc.class);
+    
     /** 
      * 게시판 정보 (그룹).
      */
@@ -74,7 +78,7 @@ public class BoardSvc {
             txManager.commit(status);
         } catch (TransactionException ex) {
             txManager.rollback(status);
-            System.out.println("데이터 저장 오류");
+            LOGGER.error("insertBoard");
         }            
     }
  
@@ -97,6 +101,9 @@ public class BoardSvc {
         sqlSession.delete("deleteBoardOne", param);
     }
 
+    /**
+     * 좋아요저장.     
+     */
     public void insertBoardLike(Field3VO param) {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
@@ -109,7 +116,7 @@ public class BoardSvc {
             txManager.commit(status);
         } catch (TransactionException ex) {
             txManager.rollback(status);
-            System.out.println("데이터 저장 오류");
+            LOGGER.error("insertBoardLike");
         }            
     }
 

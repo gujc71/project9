@@ -189,11 +189,11 @@ body {
 }
 
 .chat li.left .chat-body {
-    margin-left: 60px;
+    margin-left: 45px;
 }
 
 .chat li.right .chat-body {
-    margin-right: 60px;
+    margin-right: 45px;
 }
 
 .chat li .chat-body p {
@@ -358,6 +358,34 @@ table.dataTable thead .sorting:after {
 /* ----------------------------------------------------------------------- 
   add by 9
  */
+ 
+ .msgAlert {
+  width: 18px; 
+  height:18px; 
+  background:#d9534f; 
+  color:white; 
+  border-radius: 50%; 
+  overflow: hidden; 
+  position: absolute; 
+  top: 3px; 
+  left: 30px; 
+  text-align:center;
+ }
+ 
+.navbar-header {
+    width: 100%;
+}
+
+@media (max-width: 991px) {
+	_navbar-static-top {
+	    position: fixed;
+	    width: 100%;
+	}
+	.navbar-right{
+		float: right;
+	}
+}
+
 .table>thead>tr>th{
 	text-align:center;
 }
@@ -410,11 +438,19 @@ list{
 .showField{
 	display: none;
 }
+.field30{
+	width: 30px;
+	text-align: center;
+}
 .field60{
 	width: 60px;
 }
 .field100{
 	width: 100px;
+}
+
+.field130{
+	width: 130px;
 }
 
 @media screen and (max-width: 900px) {
@@ -427,7 +463,7 @@ list{
 		width: 99%;
 	}
 	.showField{
-		display: inline-block;
+		display: inline;
 	}
 }
 
@@ -435,12 +471,17 @@ list{
 	width:42px;
 	vertical-align: top; 
 }
-.photoLink {
-	width: 42px; 
-	height: 42px; 
+.img-circle{
+	display: inline-block;
+	width: 32px; 
+	height: 32px; 
 	border: 1px solid #ededed; 
 	border-radius: 50%; 
 	overflow: hidden;
+	vertical-align: middle;
+	text-align: center;
+	padding-left: 3px;
+	padding-top: 2px;
 }
 
 .photoTitle{
@@ -450,4 +491,11 @@ list{
 	text-overflow: ellipsis;
 	min-height: 35px;
 }
+
+.noPhoto{
+	font-size: 18pt; 
+	color:#337ab7;
+}
+
 _div {border:1px solid #cccccc}
+

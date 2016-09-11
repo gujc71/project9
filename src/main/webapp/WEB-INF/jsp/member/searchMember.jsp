@@ -92,8 +92,8 @@ function fn_formSubmit(){
 							<c:forEach var="listview" items="${listview}" varStatus="status">	
 								<tr>
 									<td><c:out value="${status.index+1}"/></td>
-									<td><a href="javascript:fn_UserRead(<c:out value="${listview.userno}"/>)"><c:out value="${listview.userid}"/></a></td>
-									<td><a href="javascript:fn_UserRead(<c:out value="${listview.userno}"/>)"><c:out value="${listview.usernm}"/></a></td>
+									<td><c:out value="${listview.userid}"/></td>
+									<td><c:out value="${listview.usernm}"/></td>
 									<td><c:out value="${listview.deptno}"/></td>
 								</tr>
 							</c:forEach>

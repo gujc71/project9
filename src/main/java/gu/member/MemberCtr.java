@@ -51,7 +51,7 @@ public class MemberCtr {
         userInfo.setUserno(userno);
         
         FileUtil fs = new FileUtil();
-        FileVO fileInfo = fs.saveFile(userInfo.getPhotofile());
+        FileVO fileInfo = fs.saveImage(userInfo.getPhotofile());
         if (fileInfo != null) {
             userInfo.setPhoto(fileInfo.getRealname());
         }

@@ -23,6 +23,9 @@ public class UserSvc {
         return sqlSession.selectList("selectUserListWithDept", param);
     }
     
+    /**
+     * 사용자 저장.     
+     */
     public void insertUser(UserVO param) {
         if (param.getUserno() == null || "".equals(param.getUserno())) {
              sqlSession.insert("insertUser", param);

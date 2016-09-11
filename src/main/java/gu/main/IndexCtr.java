@@ -20,6 +20,9 @@ public class IndexCtr {
     @Autowired
     private IndexSvc indexSvc;
     
+    /**
+     * main page. 
+     */
     @RequestMapping(value = "/index")
     public String index(HttpServletRequest request, ModelMap modelMap) {
         String userno = request.getSession().getAttribute("userno").toString();
@@ -28,10 +31,12 @@ public class IndexCtr {
 
         calCalen(today, modelMap);
         
+        Integer alertcount = indexSvc.selectAlertCount(userno);
         List<?> listview = indexSvc.selectRecentNews();
         List<?> noticeList = indexSvc.selectNoticeListTop5();
-        List<?> listtime = indexSvc.selectTimeLine(userno);
+        List<?> listtime = indexSvc.selectTimeLine();
         
+        modelMap.addAttribute("alertcount", alertcount);
         modelMap.addAttribute("listview", listview);
         modelMap.addAttribute("noticeList", noticeList);
         modelMap.addAttribute("listtime", listtime);
@@ -39,6 +44,10 @@ public class IndexCtr {
         return "main/index";
     }
     
+    /**
+     * week calendar in main page. 
+     * Ajax.
+     */
     @RequestMapping(value = "/moveDate")
     public String moveDate(HttpServletRequest request, ModelMap modelMap) {
         String date = request.getParameter("date");
@@ -50,7 +59,7 @@ public class IndexCtr {
         return "main/indexCalen";
     }
     
-   private String calCalen(Date targetDay, ModelMap modelMap) {
+    private String calCalen(Date targetDay, ModelMap modelMap) {
         List<DateVO> calenList = new ArrayList<DateVO>();
         
         Date today = Util4calen.getToday();
@@ -79,12 +88,18 @@ public class IndexCtr {
         return "main/index";
     }
     
+    /**
+     * 조직도/사용자 선택 샘플. 
+     */
     @RequestMapping(value = "/sample1")
     public String sample1() {
         
         return "main/sample1";
     }
-    
+
+    /**
+     * 날짜 선택 샘플. 
+     */
     @RequestMapping(value = "/sample2")
     public String sample2(ModelMap modelMap) {
         String today = Util4calen.date2Str(Util4calen.getToday());
@@ -93,4 +108,15 @@ public class IndexCtr {
         return "main/sample2";
     }
 
+    /**
+     * 챠트 사용 샘플. 
+     */
+    @RequestMapping(value = "/sample3")
+    public String sample3(ModelMap modelMap) {
+        
+        List<?> listview = indexSvc.selectBoardGroupCount4Statistic();
+        modelMap.addAttribute("listview", listview);
+        
+        return "main/sample3";
+    }
 }
