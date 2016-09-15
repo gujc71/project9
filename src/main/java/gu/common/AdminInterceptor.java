@@ -1,5 +1,7 @@
 package gu.common;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,7 +29,7 @@ public class AdminInterceptor implements HandlerInterceptor {
                 res.sendRedirect("noAuthMessage"); 
                 return false;
             }
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             LOGGER.error("AdminInterceptor");
         }
         

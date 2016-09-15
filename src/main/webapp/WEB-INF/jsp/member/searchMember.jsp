@@ -58,7 +58,7 @@ function fn_formSubmit(){
 				<form role="form" id="form1" name="form1"  method="post">
 					<div class="form-group">
 						<div class="checkbox col-lg-4">
-							찾고자하는 사용자 이름을 입력하세요.
+							<s:message code="msg.page.inputName"/>
 	                   	</div>
 	                   	<div class="input-group custom-search-form col-lg-3">
                         	<input class="form-control" placeholder="Search..." type="text" id="searchKeyword" name="searchKeyword" 

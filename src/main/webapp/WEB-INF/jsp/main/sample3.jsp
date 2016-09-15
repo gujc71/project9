@@ -69,7 +69,7 @@ window.onload = function() {
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">sample3</h1>
+                    <h1 class="page-header">샘플 3: 챠트</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

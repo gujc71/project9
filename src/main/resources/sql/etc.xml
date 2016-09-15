@@ -66,8 +66,38 @@
          INNER JOIN TBL_BOARD TB ON DS.BRDNO=TB.BRDNO
          INNER JOIN COM_USER CU ON CU.USERNO=DS.USERNO
          ORDER BY DS.BRDDATE DESC
+    </select>
+
+    <select id="selectList4UserCount" parameterType="gu.board.BoardSearchVO" resultType="Integer">
+        SELECT (
+                SELECT COUNT(*)
+                  FROM TBL_BOARD TB
+                 WHERE BRDDELETEFLAG='N' AND TB.USERNO=#{searchExt1}
+               ) + ( 
+                SELECT COUNT(*)
+                  FROM TBL_BOARDREPLY TBR
+                 WHERE TBR.REDELETEFLAG='N' AND TBR.USERNO=#{searchExt1}
+               ) 
+     </select>        
+    <select id="selectList4User" parameterType="gu.board.BoardSearchVO" resultType="gu.board.BoardVO">
+        SELECT DS.BRDNO, DATE_FORMAT(DS.BRDDATE,'%Y-%m-%d %h:%m') BRDDATE, DS.TYPE extfield1
+             , TB.BRDTITLE, BGNAME, USERNM BRDWRITER
+             , (SELECT COUNT(*) FROM TBL_BOARDREAD WHERE BRDNO=TB.BRDNO) BRDHIT
+             , (SELECT COUNT(*) FROM TBL_BOARDREPLY WHERE BRDNO=TB.BRDNO AND REDELETEFLAG='N') REPLYCNT
+          FROM (
+                SELECT TB.BRDNO, BRDDATE, 'files-o' as TYPE
+                  FROM TBL_BOARD TB
+                 WHERE BRDDELETEFLAG='N' AND TB.USERNO=#{searchExt1}
+                UNION ALL
+                SELECT TBR.BRDNO, TBR.REDATE BRDDATE, 'comments' as TYPE
+                  FROM TBL_BOARDREPLY TBR
+                 WHERE TBR.REDELETEFLAG='N' AND TBR.USERNO=#{searchExt1}
+                 ORDER BY BRDDATE DESC
+        ) DS
+         INNER JOIN TBL_BOARD TB ON DS.BRDNO=TB.BRDNO
+         INNER JOIN TBL_BOARDGROUP TBG ON TBG.BGNO=TB.BGNO    
+         INNER JOIN COM_USER CU ON CU.USERNO=TB.USERNO
+         LIMIT ${rowStart-1}, 10         
      </select>
-        
-     
 </mapper>
 

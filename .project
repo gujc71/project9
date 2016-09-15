@@ -35,6 +35,11 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>net.sourceforge.pmd.eclipse.plugin.pmdBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
@@ -44,5 +49,6 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 		<nature>net.sf.eclipsecs.core.CheckstyleNature</nature>
+		<nature>net.sourceforge.pmd.eclipse.plugin.pmdNature</nature>
 	</natures>
 </projectDescription>

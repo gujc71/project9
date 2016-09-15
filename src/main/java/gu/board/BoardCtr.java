@@ -217,8 +217,8 @@ public class BoardCtr {
             }
         }
 
-        boardSvc.insertBoardReply(boardReplyInfo);
-        boardReplyInfo.setRewriter(request.getSession().getAttribute("usernm").toString());
+        boardReplyInfo = boardSvc.insertBoardReply(boardReplyInfo);
+        //boardReplyInfo.setRewriter(request.getSession().getAttribute("usernm").toString());
 
         modelMap.addAttribute("replyInfo", boardReplyInfo);
         

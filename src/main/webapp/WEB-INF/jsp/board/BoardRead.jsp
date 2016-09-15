@@ -75,7 +75,7 @@ function fn_replyDelete(reno){
 
 var updateReno = updateRememo = null;
 function fn_replyUpdate(reno){
-	hideDiv("replyDialog");
+	hideDiv("#replyDialog");
 	
 	if (updateReno) {
 		$("#replyDiv").appendTo(document.body);
@@ -85,7 +85,7 @@ function fn_replyUpdate(reno){
 	updateRememo = $("#reply"+reno).html();
 	
 	$("#reno2").val(reno);
-	$("#rememo2").text( html2Text(updateRememo) );
+	$("#rememo2").val( html2Text(updateRememo) );
 	$("#reply"+reno).text("");
 	$("#replyDiv").appendTo($("#reply"+reno));
 	$("#replyDiv").show();
@@ -103,7 +103,7 @@ function fn_replyUpdateSave(){
 			if (result!=="") {
 				$("#replyDiv").appendTo(document.body);
 				$("#replyDiv").hide();
-				$("#reply"+updateReno).html( text2Html($("#rememo2").text()) );
+				$("#reply"+updateReno).html( text2Html($("#rememo2").val()) );
 				alert("<s:message code="msg.boardSave"/>");
 			} else{
 				alert("<s:message code="msg.err.save4error"/>");
@@ -137,6 +137,7 @@ function fn_replyReply(reno){
 	$("#replyDialog").appendTo($("#reply"+reno));
 	$("#rememo3").focus();
 } 
+
 function fn_replyReplyCancel(){
 	hideDiv("#replyDialog");
 } 
@@ -161,6 +162,7 @@ function fn_replyReplySave(){
 		}
 	})	
 }
+
 function fn_addBoardLike(brdno){
 	$.ajax({
 		url: "addBoardLike",
@@ -244,16 +246,16 @@ function fn_addBoardLike(brdno){
 							<div class="panel panel-default" id="replyItem<c:out value="${replylist.reno}"/>" style="margin-left: <c:out value="${20*replylist.redepth}"/>px;">
 			                	<div class="panel-body">
 			                   		<div class="pull-left photoOutline">
-										<a href="" class="img-circle">
-											<c:choose>
-											    <c:when test="${replylist.photo==null}">
+										<c:choose>
+										    <c:when test="${replylist.photo==null}">
+												<a href="" class="img-circle">
 													<i class="glyphicon glyphicon-user noPhoto"></i>
-											    </c:when>
-											    <c:otherwise>
-											    	<img class="img-circle" src="fileDownload?downname=<c:out value="${replylist.photo}"/>" title="<c:out value="${replylist.rewriter}"/>"/>
-											    </c:otherwise>
-											</c:choose>
-										</a>
+												</a>
+										    </c:when>
+										    <c:otherwise>
+										    	<img class="img-circle" src="fileDownload?downname=<c:out value="${replylist.photo}"/>" title="<c:out value="${replylist.rewriter}"/>"/>
+										    </c:otherwise>
+										</c:choose>
 									</div>					
 				                   	<div class="photoTitle">
 										<div> 

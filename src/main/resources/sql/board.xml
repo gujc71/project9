@@ -170,6 +170,14 @@
                )
     </insert>
 
+    <select id="selectBoardReplyOne" resultType="gu.board.BoardReplyVO" parameterType="String">
+        SELECT BRDNO, RENO, USERNM REWRITER, REDELETEFLAG, REMEMO, DATE_FORMAT(REDATE, '%Y-%m-%d %H:%i') REDATE
+             , REPARENT, REDEPTH, REORDER, TBR.USERNO, CU.PHOTO
+          FROM TBL_BOARDREPLY TBR
+         INNER JOIN COM_USER CU ON TBR.USERNO=CU.USERNO
+         WHERE REDELETEFLAG='N' AND RENO=#{reno}  
+    </select>
+
     <select id="selectBoardReplyParent" resultType="gu.board.BoardReplyVO" parameterType="String">
         SELECT BRDNO, REDEPTH+1 REDEPTH, REORDER 
           FROM TBL_BOARDREPLY

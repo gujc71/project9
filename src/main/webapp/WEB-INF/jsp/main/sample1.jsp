@@ -127,7 +127,7 @@ function fn_selectUsers(usernos, usernms) {
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">sample1</h1>
+                    <h1 class="page-header">샘플 1: 조직도/사용자</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

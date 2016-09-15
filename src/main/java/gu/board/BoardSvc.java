@@ -132,7 +132,7 @@ public class BoardSvc {
     /**
      * 댓글 저장. 
      */
-    public void insertBoardReply(BoardReplyVO param) {
+    public BoardReplyVO insertBoardReply(BoardReplyVO param) {
         if (param.getReno() == null || "".equals(param.getReno())) {
             if (param.getReparent() != null) {
                 BoardReplyVO replyInfo = sqlSession.selectOne("selectBoardReplyParent", param.getReparent());
@@ -148,6 +148,7 @@ public class BoardSvc {
         } else {
             sqlSession.insert("updateBoardReply", param);
         }
+        return sqlSession.selectOne("selectBoardReplyOne", param.getReno());
     }   
     
     /**

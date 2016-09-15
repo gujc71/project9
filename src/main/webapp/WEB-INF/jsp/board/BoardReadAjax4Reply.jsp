@@ -2,14 +2,22 @@
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 
+		
 <div class="panel panel-default" id="replyItem<c:out value="${replyInfo.reno}"/>" style="margin-left: <c:out value="${20*replyInfo.redepth}"/>px;">
-            	<div class="panel-body">
-               		<div class="pull-left" style="width:42px; vertical-align: top; ">
-			<a href="" style="width: 42px; height: 42px; border: 1px solid #ededed; border-radius: 50%; display: inline-block; overflow: hidden;">
-				<i class="glyphicon glyphicon-user" style="font-size: 29pt; color:#337ab7"></i>
-			</a>
+	<div class="panel-body">
+		<div class="pull-left photoOutline">
+			<c:choose>
+			    <c:when test="${replyInfo.photo==null}">
+					<a href="" class="img-circle">
+						<i class="glyphicon glyphicon-user noPhoto"></i>
+					</a>
+			    </c:when>
+			    <c:otherwise>
+			    	<img class="img-circle" src="fileDownload?downname=<c:out value="${replyInfo.photo}"/>" title="<c:out value="${replyInfo.rewriter}"/>"/>
+			    </c:otherwise>
+			</c:choose>
 		</div>					
-                	<div style="width:auto; margin-left: 10px;">
+	    <div class="pull-left photoTitle">
 			<div> 
 				<c:out value="${replyInfo.rewriter}"/> <c:out value="${replyInfo.redate}"/>
 				<c:if test='${replyInfo.userno==sessionScope.userno}' >
@@ -21,4 +29,4 @@
 			<div id="reply<c:out value="${replyInfo.reno}"/>"><c:out value="${replyInfo.getRememoByHTML()}" escapeXml="false"/></div>
 		</div>
 	</div>
-</div>						
+</div>
