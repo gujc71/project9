@@ -32,7 +32,6 @@ public class FileUtil {
         String newName = getNewName();
         filePath = getRealPath(filePath, newName);
 
-        //saveFileOne(uploadfile, filePath + "/" + newName.substring(0,4) + "/", newName);
         saveFileOne(uploadfile, filePath, newName);
             
         FileVO filedo = new FileVO();
@@ -135,8 +134,6 @@ public class FileUtil {
 
         return resizedImage;
     }
-
-
 
     /**
      * 파일 저장 경로 생성.

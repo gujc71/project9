@@ -14,6 +14,15 @@ function fn_moveToURL(url, msg){
 	location.href=url;
 }
 
+function fn_moveToURLbyForm(formid, url, msg){
+	if (msg) {
+		if (!confirm( msg + " 하시겠습니까??")) return;
+	}
+	var form = document.getElementById(formid);
+	form.action=url;
+	form.submit();
+}
+
 function html2Text(str) {
     str = str.replace(/&nbsp;/gi, " ");
     return str.replace(/<br>/gi, "\n");

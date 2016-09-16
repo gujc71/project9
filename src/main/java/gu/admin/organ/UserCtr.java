@@ -14,6 +14,7 @@ import gu.common.FileUtil;
 import gu.common.FileVO;
 import gu.common.TreeMaker;
 import gu.common.UtilEtc;
+import gu.etc.EtcSvc;
 import gu.member.UserVO;
 
 @Controller
@@ -25,11 +26,19 @@ public class UserCtr {
     @Autowired
     private UserSvc userSvc;
     
+    @Autowired
+    private EtcSvc etcSvc;
+    
     /**
      * 리스트.
      */
     @RequestMapping(value = "/adUser")
-       public String user(ModelMap modelMap) {
+       public String user(HttpServletRequest request, ModelMap modelMap) {
+        String userno = request.getSession().getAttribute("userno").toString();
+        
+        Integer alertcount = etcSvc.selectAlertCount(userno);
+        modelMap.addAttribute("alertcount", alertcount);
+        
         List<?> listview   = deptSvc.selectDepartment();
 
         TreeMaker tm = new TreeMaker();

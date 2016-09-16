@@ -22,6 +22,7 @@ import gu.common.FileUtil;
 import gu.common.FileVO;
 import gu.common.TreeMaker;
 import gu.common.UtilEtc;
+import gu.etc.EtcSvc;
 
 @Controller 
 public class BoardCtr {
@@ -32,13 +33,20 @@ public class BoardCtr {
     @Autowired
     private BoardGroupSvc boardGroupSvc;
     
+    @Autowired
+    private EtcSvc etcSvc;    
+    
     static final Logger LOGGER = LoggerFactory.getLogger(BoardCtr.class);
     
     /**
      * 리스트.
      */
     @RequestMapping(value = "/boardList")
-    public String boardList(BoardSearchVO searchVO, ModelMap modelMap) {
+    public String boardList(HttpServletRequest request, BoardSearchVO searchVO, ModelMap modelMap) {
+        String userno = request.getSession().getAttribute("userno").toString();
+        
+        Integer alertcount = etcSvc.selectAlertCount(userno);
+        modelMap.addAttribute("alertcount", alertcount);
         
         if (searchVO.getBgno() != null && !"".equals(searchVO.getBgno())) {
             BoardGroupVO bgInfo = boardSvc.selectBoardGroupOne4Used(searchVO.getBgno());
@@ -68,6 +76,11 @@ public class BoardCtr {
      */
     @RequestMapping(value = "/boardForm")
     public String boardForm(HttpServletRequest request, ModelMap modelMap) {
+        String userno = request.getSession().getAttribute("userno").toString();
+        
+        Integer alertcount = etcSvc.selectAlertCount(userno);
+        modelMap.addAttribute("alertcount", alertcount);
+        
         String bgno = request.getParameter("bgno");
         String brdno = request.getParameter("brdno");
         
@@ -119,9 +132,13 @@ public class BoardCtr {
      */
     @RequestMapping(value = "/boardRead")
     public String boardRead(HttpServletRequest request, ModelMap modelMap) {
+        String userno = request.getSession().getAttribute("userno").toString();
+        
+        Integer alertcount = etcSvc.selectAlertCount(userno);
+        modelMap.addAttribute("alertcount", alertcount);
+        
         String bgno = request.getParameter("bgno");
         String brdno = request.getParameter("brdno");
-        String userno = request.getSession().getAttribute("userno").toString();
         
         Field3VO f3 = new Field3VO(brdno, userno, null);
         

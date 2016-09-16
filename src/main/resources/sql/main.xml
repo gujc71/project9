@@ -3,31 +3,6 @@
 
 <mapper namespace="main">
 
-    <select id="selectAlertCount" parameterType="String" resultType="Integer">
-        SELECT (
-                    SELECT COUNT(distinct TB.BRDNO, TBL.BLNO) CNT
-                      FROM TBL_BOARD TB
-                      LEFT OUTER JOIN TBL_BOARDREAD TBR ON TBR.BRDNO=TB.BRDNO AND TBR.USERNO=#{userno}
-                     INNER JOIN TBL_BOARDLIKE TBL ON TBL.BRDNO=TB.BRDNO
-                     WHERE BRDDELETEFLAG='N' AND TB.USERNO=#{userno}
-                       AND TBL.BLDATE > IF(TB.BRDDATE>IFNULL(TBR.READDATE,0), TB.BRDDATE, TBR.READDATE)
-                ) + (
-                    SELECT COUNT(distinct TB.BRDNO, TBRE.RENO) CNT
-                      FROM TBL_BOARD TB
-                      LEFT OUTER JOIN TBL_BOARDREAD TBR ON TBR.BRDNO=TB.BRDNO AND TBR.USERNO=#{userno}
-                     INNER JOIN TBL_BOARDREPLY TBRE ON TBRE.BRDNO=TB.BRDNO
-                     WHERE BRDDELETEFLAG='N' AND TB.USERNO=#{userno}
-                       AND TBRE.REDATE > IF(TB.BRDDATE>IFNULL(TBR.READDATE,0), TB.BRDDATE, TBR.READDATE)
-                ) + (
-                    SELECT COUNT(distinct TBR.BRDNO, TBRE.RENO) CNT
-                      FROM TBL_BOARDREPLY TBR
-                     INNER JOIN TBL_BOARDREAD TBRR ON TBR.BRDNO=TBRR.BRDNO
-                     INNER JOIN TBL_BOARDREPLY TBRE ON TBRE.BRDNO=TBR.BRDNO
-                     WHERE TBR.REDELETEFLAG='N' AND TBR.USERNO=#{userno} AND TBRR.USERNO=#{userno}
-                       AND TBRE.REDATE > TBRR.READDATE 
-                ) CNT
-    </select>
-        
     <select id="selectRecentNews" resultType="gu.board.BoardVO">
         SELECT BRDNO, BRDTITLE, DATE_FORMAT(BRDDATE,'%Y-%m-%d') BRDDATE
              , TB.USERNO, USERNM BRDWRITER, BGNAME, TB.BGNO

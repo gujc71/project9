@@ -14,31 +14,31 @@
 
 	            <ul class="nav navbar-top-links navbar-right">
 	                <!-- /.dropdown -->
-	                <li class="dropdown">
-	                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="showAlertList()">
-	                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-	                        <c:if test="${alertcount>0}">
-	                        	<div class="msgAlert"><c:out value="${alertcount}"/></div>
-	                        </c:if>
-	                    </a>
-	                    <script>
-	                    	function showAlertList(){
-	                    		$.ajax({
-	                    			url: "alertList4Ajax", 
-	                    			dataType: "html",
-	                    			type:"post", 
-	                    			success: function(result){
-	                    				if (result!=="") {
-	                    					$("#alertlist").html(result);
-	                    				}
-	                    			}
-	                    		})		                    		
-	                    	}
-	                    </script>
-	                    <ul id="alertlist" class="dropdown-menu dropdown-alerts">
-	                    </ul>
-	                    <!-- /.dropdown-alerts -->
-	                </li>
+                    <c:if test="${alertcount>0}">
+		                <li class="dropdown">
+		                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="showAlertList()">
+		                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+		                        	<div class="msgAlert"><c:out value="${alertcount}"/></div>
+		                    </a>
+		                    <script>
+		                    	function showAlertList(){
+		                    		$.ajax({
+		                    			url: "alertList4Ajax", 
+		                    			dataType: "html",
+		                    			type:"post", 
+		                    			success: function(result){
+		                    				if (result!=="") {
+		                    					$("#alertlist").html(result);
+		                    				}
+		                    			}
+		                    		})		                    		
+		                    	}
+		                    </script>
+		                    <ul id="alertlist" class="dropdown-menu dropdown-alerts">
+		                    </ul>
+		                    <!-- /.dropdown-alerts -->
+		                </li>
+                    </c:if>
 	                <!-- /.dropdown -->
 	                <li class="dropdown">
 	                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -86,13 +86,21 @@
                             <a href="boardList"><i class="fa fa-files-o fa-fw"></i> <s:message code="board.boardName"/></a>
                         </li>
                         <li>
-                            <a href="sample1"><i class="fa fa-music fa-fw"></i> 샘플 1: 조직도/사용자</a>
-                        </li>
-                        <li>
-                            <a href="sample2"><i class="fa fa-music fa-fw"></i> 샘플 2: 날짜 선택 </a>
-                        </li>
-                        <li>
-                            <a href="sample3"><i class="fa fa-music fa-fw"></i> 샘플 3: 챠트</a>
+                            <a href="#"><i class="fa fa-music fa-fw"></i> 샘플<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+                                <li>
+                                    <a href="sample1">샘플 1: 조직도/사용자</a>
+                                </li>
+                                <li>
+		                            <a href="sample2">샘플 2: 날짜 선택 </a>
+                                </li>
+                                <li>
+		                            <a href="sample3">샘플 3: 챠트</a>
+                                </li>
+                                <li>
+		                            <a href="sample4">샘플 4: List & Excel</a>
+                                </li>
+	                        </ul>                            
                         </li>
                         <c:if test='${sessionScope.userrole == "A"}'>
 	                        <li>

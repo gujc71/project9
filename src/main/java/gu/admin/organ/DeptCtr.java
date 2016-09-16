@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import gu.common.TreeMaker;
 import gu.common.UtilEtc;
+import gu.etc.EtcSvc;
 
 @Controller
 public class DeptCtr {
@@ -19,11 +20,19 @@ public class DeptCtr {
     @Autowired
     private DeptSvc deptSvc;
     
+    @Autowired
+    private EtcSvc etcSvc;
+    
     /**
      * 리스트.
      */
     @RequestMapping(value = "/adDepartment")
-       public String department(ModelMap modelMap) {
+       public String department(HttpServletRequest request, ModelMap modelMap) {
+        String userno = request.getSession().getAttribute("userno").toString();
+        
+        Integer alertcount = etcSvc.selectAlertCount(userno);
+        modelMap.addAttribute("alertcount", alertcount);
+        
         List<?> listview   = deptSvc.selectDepartment();
 
         TreeMaker tm = new TreeMaker();

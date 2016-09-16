@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import gu.common.DateVO;
 import gu.common.Util4calen;
+import gu.etc.EtcSvc;
 
 
 @Controller 
 public class IndexCtr {
     @Autowired
     private IndexSvc indexSvc;
+    @Autowired
+    private EtcSvc etcSvc;
     
     /**
      * main page. 
@@ -31,12 +34,13 @@ public class IndexCtr {
 
         calCalen(today, modelMap);
         
-        Integer alertcount = indexSvc.selectAlertCount(userno);
+        Integer alertcount = etcSvc.selectAlertCount(userno);
+        modelMap.addAttribute("alertcount", alertcount);
+        
         List<?> listview = indexSvc.selectRecentNews();
         List<?> noticeList = indexSvc.selectNoticeListTop5();
         List<?> listtime = indexSvc.selectTimeLine();
         
-        modelMap.addAttribute("alertcount", alertcount);
         modelMap.addAttribute("listview", listview);
         modelMap.addAttribute("noticeList", noticeList);
         modelMap.addAttribute("listtime", listtime);
@@ -88,35 +92,4 @@ public class IndexCtr {
         return "main/index";
     }
     
-    /**
-     * 조직도/사용자 선택 샘플. 
-     */
-    @RequestMapping(value = "/sample1")
-    public String sample1() {
-        
-        return "main/sample1";
-    }
-
-    /**
-     * 날짜 선택 샘플. 
-     */
-    @RequestMapping(value = "/sample2")
-    public String sample2(ModelMap modelMap) {
-        String today = Util4calen.date2Str(Util4calen.getToday());
-        
-        modelMap.addAttribute("today", today);
-        return "main/sample2";
-    }
-
-    /**
-     * 챠트 사용 샘플. 
-     */
-    @RequestMapping(value = "/sample3")
-    public String sample3(ModelMap modelMap) {
-        
-        List<?> listview = indexSvc.selectBoardGroupCount4Statistic();
-        modelMap.addAttribute("listview", listview);
-        
-        return "main/sample3";
-    }
 }

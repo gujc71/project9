@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import gu.common.TreeMaker;
 import gu.common.UtilEtc;
+import gu.etc.EtcSvc;
 
 @Controller
 public class BoardGroupCtr {
@@ -19,11 +20,19 @@ public class BoardGroupCtr {
     @Autowired
     private BoardGroupSvc boardSvc;
     
+    @Autowired
+    private EtcSvc etcSvc;
+    
     /**
      * 리스트.
      */
     @RequestMapping(value = "/adBoardGroupList")
-       public String boardGroupList(ModelMap modelMap) {
+       public String boardGroupList(HttpServletRequest request, ModelMap modelMap) {
+        String userno = request.getSession().getAttribute("userno").toString();
+        
+        Integer alertcount = etcSvc.selectAlertCount(userno);
+        modelMap.addAttribute("alertcount", alertcount);
+        
         List<?> listview   = boardSvc.selectBoardGroupList();
 
         TreeMaker tm = new TreeMaker();

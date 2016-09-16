@@ -14,6 +14,10 @@ public class EtcSvc {
     @Autowired
     private SqlSessionTemplate sqlSession;    
         
+    public Integer selectAlertCount(String param) {
+        return sqlSession.selectOne("selectAlertCount", param);
+    }
+    
     public List<?> selectAlertList4Ajax(String param) {
         return sqlSession.selectList("selectAlertList4Ajax", param);
     }

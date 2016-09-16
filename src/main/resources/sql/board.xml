@@ -41,7 +41,9 @@
          INNER JOIN TBL_BOARDGROUP TBG ON TBG.BGNO=TB.BGNO
          <include refid="includeBoard"/>
          ORDER BY BRDNO DESC 
-         LIMIT ${rowStart-1}, 10
+         <if test="rowStart != null">
+             LIMIT ${rowStart-1}, 10
+         </if>
     </select> 
 
     <select id="selectNoticeList" resultType="gu.board.BoardVO" parameterType="gu.board.BoardSearchVO">
