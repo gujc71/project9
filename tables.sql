@@ -117,7 +117,7 @@ CREATE TABLE TBL_BOARDGROUP (
 
 DELIMITER $$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `uf_datetime2string`(dt_ Datetime) RETURNS varchar(10) CHARSET utf8
+CREATE FUNCTION `uf_datetime2string`(dt_ Datetime) RETURNS varchar(10) CHARSET utf8
 BEGIN
 	DECLARE ti INTEGER ;
 	DECLARE ret_ VARCHAR(10);

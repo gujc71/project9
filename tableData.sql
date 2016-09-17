@@ -11,10 +11,10 @@ INSERT INTO `com_dept` (`DEPTNO`, `DEPTNM`, `PARENTNO`, `DELETEFLAG`) VALUES
 	(6, '개발 2팀', 4, 'N'),
 	(7, '디자인팀', 1, 'N');
 
-INSERT INTO `tbl_boardgroup` (`BGNO`, `BGNAME`, `BGPARENT`, `BGDELETEFLAG`, `BGUSED`, `BGREPLY`, `BGREADONLY`, `BGDATE`) VALUES
-	(1, '게시판', NULL, 'N', 'N', 'N', 'N', NOW()),
-	(2, '공지사항', 1, 'N', 'Y', 'N', 'Y', NOW()),
-	(3, '일반게시판', 1, 'N', 'Y', 'Y', 'N', NOW());
+INSERT INTO `tbl_boardgroup` (`BGNO`, `BGNAME`, `BGPARENT`, `BGDELETEFLAG`, `BGUSED`, `BGREPLY`, `BGREADONLY`, `BGNOTICE`, `BGDATE`) VALUES
+	(1, '게시판', NULL, 'N', 'N', 'N', 'N', 'N',NOW()),
+	(2, '공지사항', 1, 'N', 'Y', 'N', 'Y', 'Y', NOW()),
+	(3, '일반게시판', 1, 'N', 'Y', 'Y', 'N', 'N', NOW());
 
 INSERT INTO `com_user` (`USERNO`, `USERID`, `USERNM`, `USERPW`, `USERROLE`, `PHOTO`, `DEPTNO`, `DELETEFLAG`) VALUES
 	(1, 'admin', '관리자', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'A', NULL, 1, 'N'),
