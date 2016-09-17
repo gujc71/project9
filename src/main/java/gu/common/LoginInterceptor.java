@@ -1,5 +1,7 @@
 package gu.common;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,21 +22,22 @@ public class LoginInterceptor implements HandlerInterceptor {
      */
     public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) {
         HttpSession session = req.getSession();
-        
+        /*
         session.setAttribute("userid", "admin");
         session.setAttribute("userrole", "A");        
         session.setAttribute("userno",   "1");        
         session.setAttribute("usernm", "관리자");
-        /*
+       */
+        
         try {
             if (session == null || session.getAttribute("userno") == null) {
                 res.sendRedirect("memberLogin"); 
                 return false;
             }
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             LOGGER.error("LoginInterceptor");
         }
-        */
+        
         return true;
     }
     
