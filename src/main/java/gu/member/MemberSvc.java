@@ -26,4 +26,12 @@ public class MemberSvc {
         return sqlSession.selectOne("selectMember4Login", param);
     }
     
+    public void insertLogIn(String param) {
+        sqlSession.insert("insertLogIn", param);
+    }
+
+    public void insertLogOut(String param) {
+        sqlSession.insert("insertLogOut", param);
+    }
+    
 }

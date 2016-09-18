@@ -113,6 +113,16 @@ CREATE TABLE TBL_BOARDGROUP (
   PRIMARY KEY (BGNO)
 );
 
+-- DROP TABLE COM_LOGINOUT;
+
+CREATE TABLE COM_LOGINOUT (
+  LNO 		INT(11) NOT NULL AUTO_INCREMENT,    -- 순번
+  USERNO 	INT,                    			-- 로그인 사용자
+  LTYPE 	CHAR(1),                       		-- in / out
+  LDATE 	DATETIME,                          	-- 발생일자
+  PRIMARY KEY (LNO)
+);
+
 -- DROP FUNCTION uf_datetime2string;
 
 DELIMITER $$

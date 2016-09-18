@@ -25,5 +25,16 @@
          WHERE CU.DELETEFLAG='N' 
            AND CU.USERID = #{userid} AND USERPW=SHA2(#{userpw}, 256)
     </select> 
+    
+    <insert id="insertLogIn" parameterType="String">
+    	INSERT INTO COM_LOGINOUT (USERNO, LTYPE, LDATE)
+    	 	              VALUES (#{userno}, 'I', NOW() );
+    </insert>
+
+    <insert id="insertLogOut" parameterType="String">
+    	INSERT INTO COM_LOGINOUT (USERNO, LTYPE, LDATE)
+    	 	              VALUES (#{userno}, 'O', NOW() );
+    </insert>
+    
 </mapper>
 

@@ -45,6 +45,8 @@ public class LoginCtr {
             return "common/message";
         }
         
+        memberSvc.insertLogIn(mdo.getUserno());
+        
         HttpSession session = request.getSession();
         
         session.setAttribute("userid", mdo.getUserid());
@@ -68,7 +70,11 @@ public class LoginCtr {
     public String memberLogout(HttpServletRequest request, ModelMap modelMap) {
         HttpSession session = request.getSession();
         
-        session.removeAttribute("userid");
+        String userno = session.getAttribute("userno").toString();
+        
+        memberSvc.insertLogOut(userno);
+        
+        session.removeAttribute("userid"); 
         session.removeAttribute("userrole");        
         session.removeAttribute("userno");        
         session.removeAttribute("usernm");
@@ -76,7 +82,7 @@ public class LoginCtr {
         return "redirect:/memberLogin";
     }
     
-    /**
+    /** 
      * 사용자가 관리자페이지에 접근하면 오류 출력.
      */
     @RequestMapping(value = "noAuthMessage")
