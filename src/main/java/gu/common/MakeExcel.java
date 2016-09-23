@@ -43,7 +43,7 @@ public class MakeExcel {
         String tempPath = request.getSession().getServletContext().getRealPath("/WEB-INF/templete") ;
         
         try {
-            InputStream is = new BufferedInputStream(new FileInputStream(tempPath + "\\" + templateFile));
+            InputStream is = new BufferedInputStream(new FileInputStream(tempPath + "/" + templateFile));
             XLSTransformer transformer = new XLSTransformer();
             Workbook resultWorkbook = transformer.transformXLS(is, beans);
             response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + ".xlsx\"");
