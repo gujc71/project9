@@ -43,6 +43,11 @@ public class BoardCtr {
      */
     @RequestMapping(value = "/boardList")
     public String boardList(HttpServletRequest request, BoardSearchVO searchVO, ModelMap modelMap) {
+        String globalKeyword = request.getParameter("globalKeyword");  // it's search from left side bar
+        if (globalKeyword!=null & !"".equals(globalKeyword)) {
+            searchVO.setSearchKeyword(globalKeyword);
+        }        
+        
         String userno = request.getSession().getAttribute("userno").toString();
         
         Integer alertcount = etcSvc.selectAlertCount(userno);
