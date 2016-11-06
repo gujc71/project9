@@ -34,50 +34,8 @@
     <script src="css/sb-admin/sb-admin-2.js"></script>
     <script src="js/project9.js"></script>    
 <script>
-
-
 function fn_formSubmit(){
     document.form1.submit();    
-}
-
-function showBoardList(ev){
-    if( $('#boardlistDiv').is(':visible') ) {
-        $("#boardlistDiv").hide();
-        return;
-    }
-    var pos = $( "#boardlistBtn" ).position();
-    $("#boardlistDiv").css({
-           "top" : parseInt(pos.top)+30 + "px",
-           "left" : pos.left
-    }).show();
-    
-    var node = $("#tree").dynatree("getRoot");
-    
-    if (node.childList) return;
-    
-    $.ajax({
-        url: "boardListByAjax",
-        type:"post", 
-        dataType: "json",
-        success: function(result){
-            $("#tree").dynatree({children: result});
-            $("#tree").dynatree("getTree").reload();
-            $("#tree").dynatree("getRoot").visit(function(node){
-                node.expand(true);
-            });
-        }
-    })    
-    
-}
-
-$(function(){
-    $("#tree").dynatree({
-        onActivate: TreenodeActivate
-    });
-});
-
-function TreenodeActivate(node) {
-    location.href = "boardList?bgno=" + node.data.key;
 }
 
 </script>
