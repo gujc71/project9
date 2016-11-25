@@ -104,7 +104,7 @@
                         </li>
                         <c:if test='${sessionScope.userrole == "A"}'>
 	                        <li>
-	                            <a href="#"><i class="fa fa-gear fa-fw"></i> <s:message code="memu.admin"/></a>
+	                            <a href="#"> <s:message code="memu.admin"/></a>
 	                        </li>
 	                        <li>
 	                            <a href="adBoardGroupList"><i class="fa fa-files-o fa-fw"></i> <s:message code="memu.board"/></a>
@@ -120,6 +120,9 @@
 	                                </li>
 	                            </ul>
 	                        </li>
+                             <li>
+                                 <a href="adCodeList"><i class="fa fa-gear fa-fw"></i> <s:message code="memu.code"/></a>
+                             </li>
 	                	</c:if>	        
                     </ul>
                 </div>

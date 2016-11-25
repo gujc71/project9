@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+    <sql id="includeCode">
+        WHERE 1=1
+        <if test="searchKeyword!=null and searchKeyword!='' and searchType!=''">
+            <foreach item="item" index="index" collection="searchTypeArr" separator=" OR " open="AND (" close=")">
+                 ${item} LIKE CONCAT('%', #{searchKeyword},'%' )
+            </foreach>
+        </if>               
+    </sql>
+
+    <select id="selectCodeCount" resultType="Integer" parameterType="gu.common.SearchVO">
+        SELECT COUNT(*)
+          FROM COM_CODE CC
+         <include refid="includeCode"/>
+    </select> 
+    
+    <select id="selectCodeList" resultType="gu.admin.code.CodeVO" parameterType="gu.common.SearchVO">
+        SELECT CLASSNO, CODECD, CODENM
+          FROM COM_CODE TB
+         <include refid="includeCode"/>
+         ORDER BY CLASSNO, CODECD 
+         <if test="rowStart != null">
+             LIMIT ${rowStart-1}, 10
+         </if>
+    </select> 
+        
+    <insert id="insertCode" parameterType="gu.admin.code.CodeVO" >
+        INSERT INTO COM_CODE(CLASSNO, CODECD, CODENM)
+        VALUES (#{classno}, #{codecd}, #{codenm})
+    </insert>
+    
+    <update id="updateCode" parameterType="gu.admin.code.CodeVO">
+        UPDATE COM_CODE
+           SET CODENM=#{codenm}
+         WHERE CLASSNO=#{classno} AND CODECD=#{codecd}
+    </update> 
+        
+    <select id="selectCodeOne" parameterType="gu.admin.code.CodeVO" resultType="gu.admin.code.CodeVO">
+        SELECT CLASSNO, CODECD, CODENM
+          FROM COM_CODE CC
+         WHERE CLASSNO=#{classno} AND CODECD=#{codecd}
+    </select> 
+    
+    <delete id="deleteCodeOne" parameterType="gu.admin.code.CodeVO">
+        DELETE FROM COM_CODE
+         WHERE CLASSNO=#{classno} AND CODECD=#{codecd}
+    </delete> 
+    
+</mapper>
+
