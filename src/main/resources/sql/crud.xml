@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+    <sql id="includeCrud">
+        WHERE CRDELETEFLAG='N'
+        <if test="searchKeyword!=null and searchKeyword!='' and searchType!=''">
+            <foreach item="item" index="index" collection="searchTypeArr" separator=" OR " open="AND (" close=")">
+                 ${item} LIKE CONCAT('%', #{searchKeyword},'%' )
+            </foreach>
+        </if>               
+    </sql>
+
+    <select id="selectCrudCount" resultType="Integer" parameterType="gu.common.SearchVO">
+        SELECT COUNT(*)
+          FROM TBL_CRUD TC
+         <include refid="includeCrud"/>
+    </select> 
+    
+    <select id="selectCrudList" resultType="gu.crud.CrudVO" parameterType="gu.common.SearchVO">
+        SELECT CRNO, CRTITLE, TC.USERNO, USERNM, CRMEMO, DATE_FORMAT(CRDATE,'%Y-%m-%d') CRDATE
+          FROM TBL_CRUD TC
+         INNER JOIN COM_USER CU ON TC.USERNO=CU.USERNO
+         <include refid="includeCrud"/>
+         ORDER BY CRNO DESC
+         <if test="rowStart != null">
+             LIMIT ${rowStart-1}, 10
+         </if>
+    </select> 
+        
+    <insert id="insertCrud" parameterType="gu.crud.CrudVO" >
+        INSERT INTO TBL_CRUD(CRTITLE, USERNO, CRMEMO, CRDATE, CRDELETEFLAG)
+        VALUES (#{crtitle}, #{userno}, #{crmemo}, NOW(), 'N')
+    </insert>
+    
+    <update id="updateCrud" parameterType="gu.crud.CrudVO">
+        UPDATE TBL_CRUD
+           SET CRTITLE=#{crtitle}, CRMEMO=#{crmemo}
+         WHERE CRNO=#{crno} 
+    </update> 
+        
+    <select id="selectCrudOne" parameterType="gu.crud.CrudVO" resultType="gu.crud.CrudVO">
+        SELECT CRNO, CRTITLE, TC.USERNO, USERNM, CRMEMO, DATE_FORMAT(CRDATE,'%Y-%m-%d') CRDATE
+          FROM TBL_CRUD TC
+         INNER JOIN COM_USER CU ON TC.USERNO=CU.USERNO
+         WHERE CRDELETEFLAG='N' AND CRNO=#{crno}
+    </select> 
+    
+    <delete id="deleteCrud" parameterType="gu.crud.CrudVO">
+        UPDATE TBL_CRUD
+           SET CRDELETEFLAG='Y'
+         WHERE CRNO=#{crno} 
+    </delete> 
+    
+</mapper>
+

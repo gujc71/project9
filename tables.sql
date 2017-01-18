@@ -123,6 +123,16 @@ CREATE TABLE COM_LOGINOUT (
   PRIMARY KEY (LNO)
 );
 
+CREATE TABLE TBL_CRUD(
+  CRNO INT NOT NULL AUTO_INCREMENT,	-- 번호
+  CRTITLE  	VARCHAR(255),     		-- 제목
+  USERNO 	INT,            		-- 작성자
+  CRMEMO   	MEDIUMTEXT,				-- 내용
+  CRDATE   	DATETIME,        		-- 작성일자
+  CRDELETEFLAG CHAR(1),     		-- 삭제 여부
+  PRIMARY KEY (CRNO)
+) ;
+
 -- DROP FUNCTION uf_datetime2string;
 
 DELIMITER $$
