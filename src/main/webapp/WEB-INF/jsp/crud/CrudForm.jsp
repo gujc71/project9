@@ -28,7 +28,6 @@
     <script src="css/sb-admin/bootstrap.min.js"></script>
     <script src="css/sb-admin/metisMenu.min.js"></script>
     <script src="css/sb-admin/sb-admin-2.js"></script>
-	<script src="js/ckeditor/ckeditor.js"></script>
 	<script src="js/project9.js"></script>    
 
 <script>
