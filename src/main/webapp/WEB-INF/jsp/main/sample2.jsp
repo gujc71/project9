@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 
@@ -30,20 +30,24 @@
     <script src="css/sb-admin/bootstrap.min.js"></script>
     <script src="css/sb-admin/metisMenu.min.js"></script>
     <script src="css/sb-admin/sb-admin-2.js"></script>
-	<script src="js/datepicker/bootstrap-datepicker.js"></script>
-	<script src="js/project9.js"></script>
+    <script src="js/datepicker/bootstrap-datepicker.js"></script>
+    <script src="js/project9.js"></script>
 <script>
 window.onload = function() {
-	$('#term1').datepicker().on('changeDate', function(ev) {
-		if (ev.viewMode=="days"){
-			$('#term1').datepicker('hide');
-		}
-	});
-	$('#term2').datepicker().on('changeDate', function(ev) {
-		if (ev.viewMode=="days"){
-			$('#term2').datepicker('hide');
-		}
-	});
+    $('#term1').datepicker().on('changeDate', function(ev) {
+        if (ev.viewMode=="days"){
+            $('#term1').datepicker('hide');
+        }
+    });
+    $('#term2').datepicker().on('changeDate', function(ev) {
+        if (ev.viewMode=="days"){
+            $('#term2').datepicker('hide');
+        }
+    });
+}
+///////////////////////
+function fn_showCode(id){
+    $(id).modal("show");
 }
 </script>  
 </head>
@@ -52,8 +56,8 @@ window.onload = function() {
 
     <div id="wrapper">
 
-		<jsp:include page="../common/navigation.jsp" />
-		
+        <jsp:include page="../common/navigation.jsp" />
+        
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -64,15 +68,20 @@ window.onload = function() {
             
             <!-- /.row -->
             <div class="row">
-				<div class="col-lg-1">
-                    	 기간 선택
-				</div>
+                <div class="col-lg-1">
+                         기간 선택
+                </div>
                  <div class="col-lg-2">
-					<input class="form-control" size="16" id="term1" type="text" value="<c:out value="${today}"/>" readonly>
+                    <input class="form-control" size="16" id="term1" type="text" value="<c:out value="${today}"/>" readonly>
                  </div>
                  <div class="col-lg-2">
-			  		<input class="form-control" size="16" id="term2" type="text" value="<c:out value="${today}"/>" readonly>
+                      <input class="form-control" size="16" id="term2" type="text" value="<c:out value="${today}"/>" readonly>
                  </div>
+                <div class="col-lg-1">
+                    <button class="btn btn-default" type="button" onclick="fn_showCode('#popupCode')" title="코드 보기">
+                        <i class="fa fa-code"></i> 코드 보기
+                    </button>
+                </div>                 
             </div>
             <!-- /.row -->
         </div>
@@ -81,6 +90,53 @@ window.onload = function() {
     </div>
     <!-- /#wrapper -->
     
+    <div id="popupCode" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+             <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header"> 
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button> 
+                    <h4 class="modal-title" id="mySmallModalLabel">필요 코드</h4> 
+                </div>             
+                <div class="modal-body">
+                    <!-- /.row -->
+                    <div class="row">
+                        <pre style="height:150px">
+    &lt;link href="js/datepicker/datepicker.css" rel="stylesheet" type="text/css"&gt;
+    &lt;script src="js/datepicker/bootstrap-datepicker.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+window.onload = function() {
+    $('#term1').datepicker().on('changeDate', function(ev) {
+        if (ev.viewMode=="days"){
+            $('#term1').datepicker('hide');
+        }
+    });
+    $('#term2').datepicker().on('changeDate', function(ev) {
+        if (ev.viewMode=="days"){
+            $('#term2').datepicker('hide');
+        }
+    });
+}
+&lt;/script&gt;                             
+                        </pre>  
+                        <pre>
+    &lt;div class="col-lg-2"&gt;
+        &lt;input class="form-control" size="16" id="term1" type="text" value="&lt;c:out value="${today}"/&gt;" readonly&gt;
+    &lt;/div&gt;
+    &lt;div class="col-lg-2"&gt;
+        &lt;input class="form-control" size="16" id="term2" type="text" value="&lt;c:out value="${today}"/&gt;" readonly&gt;
+    &lt;/div&gt;      
+                        </pre> 
+                    </div>
+                    <!-- /.row -->                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="close"><s:message code="common.btnClose"/></button>
+                </div>
+            </div>
+          </div>
+    </div>    
 </body>
 
 </html>
