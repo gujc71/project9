@@ -52,6 +52,14 @@
            SET CRDELETEFLAG='Y'
          WHERE CRNO=#{crno} 
     </delete> 
-    
+
+    <delete id="deleteChk" parameterType="java.util.Map">
+        UPDATE TBL_CRUD
+           SET CRDELETEFLAG='Y'
+         WHERE CRNO IN 
+		    <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+		        #{item}
+		    </foreach>         
+    </delete>     
 </mapper>
 

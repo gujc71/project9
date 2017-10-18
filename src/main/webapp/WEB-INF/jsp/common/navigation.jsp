@@ -103,6 +103,9 @@
                                 <li>
 		                            <a href="crudList">샘플 5: CRUD</a>
                                 </li>
+                                <li>
+		                            <a href="chkList">샘플 6: Multy Checkbox</a>
+                                </li>
 	                        </ul>                            
                         </li>
                         <c:if test='${sessionScope.userrole == "A"}'>

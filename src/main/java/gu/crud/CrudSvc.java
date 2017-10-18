@@ -1,5 +1,6 @@
 package gu.crud;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -71,4 +72,13 @@ public class CrudSvc {
         sqlSession.update("deleteCrud", param);
     }
 
+    /**
+     * 저장.
+     */
+    public void deleteChk(String[] param) {
+    	HashMap hm = new HashMap();
+    	hm.put("list", param) ;
+
+    	sqlSession.insert("deleteChk", hm);
+    }
 }
