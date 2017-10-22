@@ -45,11 +45,10 @@ public class ChkCtr {
         return "crud/ChkList";
     }
     /**
-     * 저장.
+     * 선택된 행 삭제.
      */
     @RequestMapping(value = "/chkDelete")
-    public String chkDelete(HttpServletRequest request) {
-    	String[] checkRow = request.getParameterValues("checkRow"); 
+    public String chkDelete(HttpServletRequest request, String[] checkRow) {
     	
         crudSvc.deleteChk(checkRow);
 

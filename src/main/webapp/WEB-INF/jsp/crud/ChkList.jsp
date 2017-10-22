@@ -36,10 +36,11 @@ function fn_formSubmit(){
 	document.form1.submit();	
 }
 
-function fnCheckAll(chkAll, checkRow) {
-	var chk = chkAll.checked;
-	for (var i = 0; i < checkRow.length; i++)
-		checkRow[i].checked = chk;
+function fnCheckAll() {
+	var	chk = $("#chkall").is(":checked");
+	$('input:checkbox[name="checkRow"]').each(function() {
+		this.checked = chk; 
+	})	
 }
 </script>
     
@@ -74,7 +75,7 @@ function fnCheckAll(chkAll, checkRow) {
 						<div class="listHiddenField pull-right field100"><s:message code="crud.crdate"/></div>
 						<div class="listHiddenField pull-right field100"><s:message code="crud.usernm"/></div>
 						<div class="listHiddenField pull-left">
-							<input id="chkall" name="chkall" title="모두선택" onclick="fnCheckAll(this, form2.checkRow)" type="checkbox">
+							<input id="chkall" name="chkall" title="모두선택" onclick="fnCheckAll()" type="checkbox">
 						</div>
 						<div class="listTitle"><s:message code="crud.crtitle"/></div>
 					</div> 
