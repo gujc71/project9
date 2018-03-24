@@ -152,7 +152,12 @@ function fn_replyReplySave(){
 		success: function(result){
 			if (result!=="") {
 				var parent = $("#reparent3").val();
-				$("#replyItem"+parent).after(result);
+				var parentNodes = $(".replyParent"+parent);
+				if (parentNodes.length===0) {
+					$("#replyItem"+parent).after(result);
+				}else {
+					parentNodes.last().after(result);
+				}
 				hideDiv("#replyDialog");
 				alert("<s:message code="msg.boardSave"/>");
 				$("#rememo3").val("");
@@ -243,7 +248,7 @@ function fn_addBoardLike(brdno){
 						
 					<div id="replyList"> 
 						<c:forEach var="replylist" items="${replylist}" varStatus="status">
-							<div class="panel panel-default" id="replyItem<c:out value="${replylist.reno}"/>" style="margin-left: <c:out value="${20*replylist.redepth}"/>px;">
+							<div class="panel panel-default replyParent<c:out value="${replylist.reparent}"/>" id="replyItem<c:out value="${replylist.reno}"/>" style="margin-left: <c:out value="${20*replylist.redepth}"/>px;">
 			                	<div class="panel-body">
 			                   		<div class="pull-left photoOutline">
 										<c:choose>

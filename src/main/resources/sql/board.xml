@@ -181,11 +181,12 @@
     </select>
 
     <select id="selectBoardReplyParent" resultType="gu.board.BoardReplyVO" parameterType="String">
-        SELECT BRDNO, REDEPTH+1 REDEPTH, REORDER 
-          FROM TBL_BOARDREPLY
+        SELECT BRDNO, REDEPTH+1 REDEPTH
+             , IFNULL((SELECT MAX(REORDER) FROM TBL_BOARDREPLY WHERE REPARENT=TB.RENO), TB.REORDER) REORDER
+          FROM TBL_BOARDREPLY TB
          WHERE RENO=#{reparent}
     </select>
-
+ 
     <update id="updateBoardReplyOrder" parameterType="gu.board.BoardReplyVO"> 
         UPDATE TBL_BOARDREPLY
            SET REORDER = REORDER + 1 
@@ -196,7 +197,7 @@
         SELECT IFNULL(MAX(REORDER),0)+1
           FROM TBL_BOARDREPLY
          WHERE BRDNO=#{brdno}
-    </select>
+    </select> 
 
     <select id="selectBoardReplyChild" resultType="Integer" parameterType="String">
         SELECT COUNT(*)

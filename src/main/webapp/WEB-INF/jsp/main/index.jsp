@@ -16,6 +16,7 @@
     <link href="css/sb-admin/metisMenu.min.css" rel="stylesheet">
     <link href="css/sb-admin/sb-admin-2.css" rel="stylesheet">
     <link href="css/sb-admin/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/index.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -23,28 +24,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-    
-.col-gu{
-    float: left;
-    width: 14%;
-    padding: 1px;
-    height: 200px;
-}
 
-@media screen and (max-width: 1024px) {
-  .col-gu{
-    width: 33%;
-  }
-}
-
-@media screen and (max-width: 450px) {
-  .col-gu{
-    width: 50%;
-  }
-}
-
-</style>
     <script src="js/jquery-2.2.3.min.js"></script>
     <script src="css/sb-admin/bootstrap.min.js"></script>
     <script src="css/sb-admin/metisMenu.min.js"></script>
@@ -59,7 +39,66 @@ function fn_moveDate(date){
             $("#calenDiv").html(result);
         }
     })
-}    
+}
+
+// responsive week calendar
+function myFunction(x) {
+    if (x.matches) { // max-width: 450px
+		var columnSelected = $("#weekDiv").children(".columnSelected");
+		if (columnSelected.length===0) { // 반응형 시작
+			var today = $("#weekDiv .today");
+			if (today.length > 0) {  // 오늘이 있으면
+				//today = today.parent();
+				today.addClass( "columnSelected" );
+				if (today.next().hasClass("calendarColumn")) { // 토요일(한주의 마지막)이 아니면
+					today.next().addClass( "columnSelected" );
+				}else {
+					today.prev().addClass( "columnSelected" );
+				}
+			} else {				// 오늘이 없으면 일/월요일 
+				var ch = $("#weekDiv").children(".calendarColumn").first();
+				ch.addClass( "columnSelected" );
+				ch.next().addClass( "columnSelected" );
+			}
+		}
+	}
+}
+
+window.onload = function () {
+	var x = window.matchMedia("(max-width: 450px)")
+	x.addListener(myFunction) 
+	myFunction(x) 
+}
+
+function ev_prevSlide() {
+	var columnSelected = $("#weekDiv").children(".columnSelected");
+	var node = columnSelected.first().prev();
+	if (!node || !node.hasClass("calendarColumn")) return;
+	
+	node.addClass( "columnSelected" );
+	if (node.prev().length===0) {
+		$(".calenSlideButton_left").hide();
+	}
+	$(".calenSlideButton_right").show();
+
+	columnSelected.last().removeClass( "columnSelected" );
+}
+
+function ev_nextSlide() {
+	var columnSelected = $("#weekDiv").children(".columnSelected");
+	var node = columnSelected.last().next();
+	if (!node || !node.hasClass("calendarColumn")) return;
+	
+	node.addClass( "columnSelected" );
+
+	if (!node.next().hasClass("calendarColumn")) {
+		$(".calenSlideButton_right").hide();
+	}
+	$(".calenSlideButton_left").show();
+
+	columnSelected.first().removeClass( "columnSelected" );
+}
+
 </script>
     
 </head>

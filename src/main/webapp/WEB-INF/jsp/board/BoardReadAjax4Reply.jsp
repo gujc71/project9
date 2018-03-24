@@ -3,7 +3,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 
 		
-<div class="panel panel-default" id="replyItem<c:out value="${replyInfo.reno}"/>" style="margin-left: <c:out value="${20*replyInfo.redepth}"/>px;">
+<div class="panel panel-default replyParent<c:out value="${replyInfo.reparent}"/>" id="replyItem<c:out value="${replyInfo.reno}"/>" style="margin-left: <c:out value="${20*replyInfo.redepth}"/>px;">
 	<div class="panel-body">
 		<div class="pull-left photoOutline">
 			<c:choose>
@@ -17,7 +17,7 @@
 			    </c:otherwise>
 			</c:choose>
 		</div>					
-	    <div class="pull-left photoTitle">
+	    <div class="photoTitle">
 			<div> 
 				<c:out value="${replyInfo.rewriter}"/> <c:out value="${replyInfo.redate}"/>
 				<c:if test='${replyInfo.userno==sessionScope.userno}' >

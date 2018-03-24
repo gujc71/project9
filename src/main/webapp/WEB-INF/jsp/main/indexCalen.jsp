@@ -12,14 +12,16 @@
          </h1>
      </div>
  
-     <div class="col-lg-12">
-         <c:forEach var="calenList" items="${calenList}" varStatus="status">    
-             <div class="col-gu">
+     <div class="col-lg-12" id="weekDiv">
+     	<c:forEach var="calenList" items="${calenList}" varStatus="status">    
+             <div class="calendarColumn <c:if test="${calenList.istoday}">today</c:if>">
                  <div class="panel <c:if test="${calenList.istoday}">panel-red</c:if> <c:if test="${!calenList.istoday}">panel-default</c:if> height100">
                      <div class="panel-heading"><c:out value="${calenList.month}"/>월 <c:out value="${calenList.day}"/>일 (<c:out value="${calenList.week}"/>)</div>
                      <div class="panel-body">
                      </div>
                  </div>
              </div>
-         </c:forEach>
+        </c:forEach>
+		<div class="calenSlideButton calenSlideButton_left" onclick="ev_prevSlide()">&#10094;</div>
+		<div class="calenSlideButton calenSlideButton_right" onclick="ev_nextSlide()">&#10095;</div>
      </div>

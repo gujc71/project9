@@ -1,0 +1,68 @@
+.calendarColumn {
+	display: inline-block;
+    width: 13%;
+    padding: 1px;
+    height: 200px;
+	border: 1px solid gray;
+}
+
+.calenSlideButton_left {
+    position: absolute;
+    top: 50%;
+    left: 13px;
+    transform: translate(0%,-50%);
+    -ms-transform: translate(-0%,-50%);
+}
+.calenSlideButton_right {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translate(0%,-50%);
+    -ms-transform: translate(0%,-50%);
+}
+
+.calenSlideButton {
+    color: #000;
+    _background-color: #fff;
+    border: 0px solid gray;
+    display: none;
+    padding: 8px 8px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+	
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.calenSlideButton:hover {
+    color: #000 !important;
+    background-color: gray !important;
+}
+
+@media screen and (max-width: 1024px) {
+  .calendarColumn{
+		width: 23%;
+  }
+}
+
+@media screen and (max-width: 450px) {
+	.calendarColumn{
+		width: 49%;
+		display: none;
+	}
+	.columnSelected {
+		display: inline-block !important;
+	}
+	
+	.calenSlideButton{
+		display: inline-block;
+	}
+}
